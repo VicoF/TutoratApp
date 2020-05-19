@@ -2,14 +2,15 @@
 
 L'équipe Coronus se serre les coudes en se temps de crise persistante pour développer UNE TOUTE NOUVELLE PLATEFORME DE TUTORAT/MENTORAT. 
 
-La TEAM DE FEU QUIE TUE est constitué de:
+La TEAM DE FEU QUIE PUE est constitué de:
 
 Vicool: Grand chef de la confrérie de "jme met chaud"
 
 WillQuandMemeCool: Manque un peu de convition/ambition
 
 LilLudo: À deux bière,
-          On le perd
+          On le perd,
+         mais il persevere.
           
 VieuxNez: Le nom c'est la description, «NoNeedToAdd»
   
