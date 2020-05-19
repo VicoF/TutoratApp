@@ -10,7 +10,7 @@ WillQuandMemeCool: Manque un peu de convition/ambition
 
 LilLudo: À deux bière,
           On le perd,
-         mais il persevere.
+         mais il persevere. RIP bouboul lol
           
 VieuxNez: Le nom c'est la description, «NoNeedToAdd»
   
@@ -24,4 +24,9 @@ Jojo aka Pouce d'acier: La légende raconte qu'avec le simple touché de son doi
 
 
 
+
 Allo ici vicool
+
+						
+					
+
