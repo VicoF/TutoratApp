@@ -1,8 +1,10 @@
 # TutoratApp
 
+WARNING : Not so professionnal README...
+
 L'équipe Coronus se serre les coudes en se temps de crise persistante pour développer UNE TOUTE NOUVELLE PLATEFORME DE TUTORAT/MENTORAT. 
 
-La TEAM DE FEU QUIE PUE est constitué de:
+La TEAM DE FEU QUIE TUE est constitué de:
 
 Vicool: Grand chef de la confrérie de "jme met chaud"
 
