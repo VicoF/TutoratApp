@@ -4,7 +4,7 @@ CREATE TABLE Utilisateur
   nom VARCHAR(64) NOT NULL,
   prenom VARCHAR(64) NOT NULL,
   email VARCHAR(64) NOT NULL,
-  note INT NOT NULL,
+  note INT,
   PRIMARY KEY (cip)
 );
 
@@ -29,7 +29,7 @@ CREATE TABLE Cours
   PRIMARY KEY (cours_id)
 );
 
-CREATE TABLE Session
+CREATE TABLE SessionUniversitaire
 (
   session_id INT NOT NULL,
   session_nom VARCHAR(64) NOT NULL,
@@ -40,10 +40,10 @@ CREATE TABLE Session
 
 CREATE TABLE Exercice
 (
-  exercice_id INT NOT NULL,
+  exercice_id SERIAL,
   exercice_nom VARCHAR(128) NOT NULL,
   exercice_lien VARCHAR(128) NOT NULL,
-  exercice_estApprouve INT NOT NULL,
+  exercice_estApprouve CHAR(3),
   exercice_vote INT NOT NULL,
   cours_id INT NOT NULL,
   ajoute_par CHAR(8) NOT NULL,
@@ -58,9 +58,9 @@ CREATE TABLE Inscription
   session_id INT NOT NULL,
   cip CHAR(8) NOT NULL,
   cours_id INT NOT NULL,
-  PRIMARY KEY (statut_id, session_id, cip, cours_id),
+  PRIMARY KEY (session_id, cip, cours_id),
   FOREIGN KEY (statut_id) REFERENCES Statut(statut_id),
-  FOREIGN KEY (session_id) REFERENCES Session(session_id),
+  FOREIGN KEY (session_id) REFERENCES SessionUniversitaire(session_id),
   FOREIGN KEY (cip) REFERENCES Utilisateur(cip),
   FOREIGN KEY (cours_id) REFERENCES Cours(cours_id)
 );
@@ -85,11 +85,24 @@ CREATE TABLE VoteExercice
   FOREIGN KEY (exercice_id) REFERENCES Exercice(exercice_id)
 );
 
-CREATE TABLE implique_privilges
+CREATE TABLE ImpliquePrivilges
 (
   statut_id INT NOT NULL,
   privilege_id INT NOT NULL,
   PRIMARY KEY (statut_id, privilege_id),
   FOREIGN KEY (statut_id) REFERENCES Statut(statut_id),
   FOREIGN KEY (privilege_id) REFERENCES Privilege(privilege_id)
+);
+
+CREATE TABLE Reunion
+(
+  reunion_id SERIAL,
+  mentore CHAR(8) NOT NULL,
+  date_debut TIMESTAMP NOT NULL,
+  date_fin  TIMESTAMP NOT NULL,
+  numero_local INT NOT NULL,
+  mentor CHAR(8) NOT NULL,
+  PRIMARY KEY (reunion_id),
+  FOREIGN KEY (mentor) REFERENCES Utilisateur(cip),
+  FOREIGN KEY (mentore) REFERENCES Utilisateur(cip)
 );
