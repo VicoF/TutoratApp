@@ -29,6 +29,13 @@ CREATE TABLE Cours
   PRIMARY KEY (cours_id)
 );
 
+CREATE TABLE sessionuniversitaire
+(
+  session_numero INT NOT NULL,
+  session_programme VARCHAR(64),
+  PRIMARY KEY (session_numero, session_numero)
+)
+/*
 CREATE TABLE SessionUniversitaire
 (
   session_id INT NOT NULL,
@@ -37,7 +44,7 @@ CREATE TABLE SessionUniversitaire
   date_fin DATE NOT NULL,
   PRIMARY KEY (session_id)
 );
-
+*/
 CREATE TABLE Exercice
 (
   exercice_id SERIAL,
@@ -55,6 +62,21 @@ CREATE TABLE Exercice
 CREATE TABLE Inscription
 (
   statut_id INT NOT NULL,
+  session_numero INT NOT NULL,
+  session_programme VARCHAR(64) NOT NULL,
+  cip CHAR(8) NOT NULL,
+  cours_id INT NOT NULL,
+  PRIMARY KEY (session_numero, session_programme, cip, cours_id),
+  FOREIGN KEY (statut_id) REFERENCES Statut(statut_id),
+  FOREIGN KEY (session_numero, session_programme) REFERENCES sessionuniversitaire(session_numero, session_programme),
+  FOREIGN KEY (cip) REFERENCES Utilisateur(cip),
+  FOREIGN KEY (cours_id) REFERENCES Cours(cours_id)
+);
+
+/*
+CREATE TABLE Inscription
+(
+  statut_id INT NOT NULL,
   session_id INT NOT NULL,
   cip CHAR(8) NOT NULL,
   cours_id INT NOT NULL,
@@ -64,6 +86,7 @@ CREATE TABLE Inscription
   FOREIGN KEY (cip) REFERENCES Utilisateur(cip),
   FOREIGN KEY (cours_id) REFERENCES Cours(cours_id)
 );
+*/
 
 CREATE TABLE Jumelage
 (
@@ -85,7 +108,7 @@ CREATE TABLE VoteExercice
   FOREIGN KEY (exercice_id) REFERENCES Exercice(exercice_id)
 );
 
-CREATE TABLE ImpliquePrivilges
+CREATE TABLE ImpliquePrivilege
 (
   statut_id INT NOT NULL,
   privilege_id INT NOT NULL,
@@ -106,3 +129,47 @@ CREATE TABLE Reunion
   FOREIGN KEY (mentor) REFERENCES Utilisateur(cip),
   FOREIGN KEY (mentore) REFERENCES Utilisateur(cip)
 );
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
