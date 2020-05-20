@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="18993041-b08f-4538-9bb4-87c24181c564" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/.name" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_thymeleaf_thymeleaf_Release.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.keep.txt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/back_end.iml" beforeDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$/.." />
+  </component>
+  <component name="ProjectId" id="1cBMVHSRQ6pF4X22NsqiiorWEEm" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.0" />
+    <property name="project.structure.side.proportion" value="0.0" />
+    <property name="settings.editor.selected.configurable" value="project.propCompiler" />
+  </component>
+  <component name="RunManager">
+    <configuration name="JBoss 19.0.0.Final" type="JBossConfiguration" factoryName="Local" APPLICATION_SERVER_NAME="JBoss 19.0.0.Final" ALTERNATIVE_JRE_ENABLED="false">
+      <deployment />
+      <server-settings>
+        <option name="SERVER" value="" />
+        <option name="BINDING_SET_NAME" value="" />
+        <option name="DOMAIN" value="false" />
+        <option name="SERVER_GROUP" value="" />
+        <option name="USERNAME" value="" />
+        <option name="CREDENTIAL_ALIAS" />
+      </server-settings>
+      <predefined_log_file enabled="true" id="JBoss" />
+      <ConfigurationWrapper VM_VAR="JAVA_OPTS" RunnerId="Run">
+        <option name="USE_ENV_VARIABLES" value="true" />
+        <STARTUP>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </STARTUP>
+        <SHUTDOWN>
+          <option name="USE_DEFAULT" value="true" />
+          <option name="SCRIPT" value="" />
+          <option name="VM_PARAMETERS" value="" />
+          <option name="PROGRAM_PARAMETERS" value="" />
+        </SHUTDOWN>
+      </ConfigurationWrapper>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="18993041-b08f-4538-9bb4-87c24181c564" name="Default Changelist" comment="" />
+      <created>1589997554804</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1589997554804</updated>
+      <workItem from="1589997567738" duration="775000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="2" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="359" y="60" width="1028" height="847" key="#Project_Structure" timestamp="1589997632172">
+      <screen x="0" y="0" width="1753" height="966" />
+    </state>
+    <state x="359" y="60" width="1028" height="847" key="#Project_Structure/0.0.1753.966@0.0.1753.966" timestamp="1589997632172" />
+    <state x="656" y="227" width="428" height="514" key="FileChooserDialogImpl" timestamp="1589998339504">
+      <screen x="0" y="0" width="1753" height="966" />
+    </state>
+    <state x="656" y="227" width="428" height="514" key="FileChooserDialogImpl/0.0.1753.966@0.0.1753.966" timestamp="1589998339504" />
+    <state width="1177" height="251" key="GridCell.Tab.0.bottom" timestamp="1589998359907">
+      <screen x="0" y="0" width="1753" height="966" />
+    </state>
+    <state width="1177" height="251" key="GridCell.Tab.0.bottom/0.0.1753.966@0.0.1753.966" timestamp="1589998359907" />
+    <state width="1177" height="251" key="GridCell.Tab.0.center" timestamp="1589998359906">
+      <screen x="0" y="0" width="1753" height="966" />
+    </state>
+    <state width="1177" height="251" key="GridCell.Tab.0.center/0.0.1753.966@0.0.1753.966" timestamp="1589998359906" />
+    <state width="1177" height="251" key="GridCell.Tab.0.left" timestamp="1589998359905">
+      <screen x="0" y="0" width="1753" height="966" />
+    </state>
+    <state width="1177" height="251" key="GridCell.Tab.0.left/0.0.1753.966@0.0.1753.966" timestamp="1589998359905" />
+    <state width="1177" height="251" key="GridCell.Tab.0.right" timestamp="1589998359906">
+      <screen x="0" y="0" width="1753" height="966" />
+    </state>
+    <state width="1177" height="251" key="GridCell.Tab.0.right/0.0.1753.966@0.0.1753.966" timestamp="1589998359906" />
+    <state x="204" y="58" width="1339" height="851" key="new project wizard" timestamp="1589998353615">
+      <screen x="0" y="0" width="1753" height="966" />
+    </state>
+    <state x="204" y="58" width="1339" height="851" key="new project wizard/0.0.1753.966@0.0.1753.966" timestamp="1589998353615" />
+  </component>
+</project>
