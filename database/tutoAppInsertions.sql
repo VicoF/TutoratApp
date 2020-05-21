@@ -3,7 +3,7 @@
 
 INSERT INTO statut(statut_id, statut_nom) VALUES(0, 'mentore');
 INSERT INTO statut(statut_id, statut_nom) VALUES(1, 'mentor');
-INSERT INTO statut(statut_id, statut_nom) VALUES(3, 'enseignant');
+INSERT INTO statut(statut_id, statut_nom) VALUES(2, 'enseignant');
 
 -- INSERTION DES PRIVILEGES
 
@@ -24,33 +24,33 @@ VALUES(6, 'Peut supprimer une reunion');
 
 -- RELATION IMPLIQUEPRIVILEGE
 
-INSERT INTO impliqueprivileges(statut_id, privilege_id) 
+INSERT INTO impliqueprivilege(statut_id, privilege_id) 
 VALUES(0, 1);
-INSERT INTO impliqueprivileges(statut_id, privilege_id) 
+INSERT INTO impliqueprivilege(statut_id, privilege_id) 
 VALUES(0, 3);
-INSERT INTO impliqueprivileges(statut_id, privilege_id) 
+INSERT INTO impliqueprivilege(statut_id, privilege_id) 
 VALUES(1, 0);
-INSERT INTO impliqueprivileges(statut_id, privilege_id) 
+INSERT INTO impliqueprivilege(statut_id, privilege_id) 
 VALUES(1, 2);
-INSERT INTO impliqueprivileges(statut_id, privilege_id) 
+INSERT INTO impliqueprivilege(statut_id, privilege_id) 
 VALUES(1, 3);
-INSERT INTO impliqueprivileges(statut_id, privilege_id) 
+INSERT INTO impliqueprivilege(statut_id, privilege_id) 
 VALUES(1, 4);
-INSERT INTO impliqueprivileges(statut_id, privilege_id) 
+INSERT INTO impliqueprivilege(statut_id, privilege_id) 
 VALUES(1, 6);
-INSERT INTO impliqueprivileges(statut_id, privilege_id) 
+INSERT INTO impliqueprivilege(statut_id, privilege_id) 
 VALUES(2, 0);
-INSERT INTO impliqueprivileges(statut_id, privilege_id) 
+INSERT INTO impliqueprivilege(statut_id, privilege_id) 
 VALUES(2, 1);
-INSERT INTO impliqueprivileges(statut_id, privilege_id) 
+INSERT INTO impliqueprivilege(statut_id, privilege_id) 
 VALUES(2, 6);
-INSERT INTO impliqueprivileges(statut_id, privilege_id) 
+INSERT INTO impliqueprivilege(statut_id, privilege_id) 
 VALUES(2, 4);
-INSERT INTO impliqueprivileges(statut_id, privilege_id) 
+INSERT INTO impliqueprivilege(statut_id, privilege_id) 
 VALUES(2, 3);
 
 -- INSERTION DES SESSIONS
-
+/*
 INSERT INTO sessionuniversitaire(session_numero, session_programme, nom)
 VALUES(1, 'Genie Informatique', 'INTRODUCTION AU GENIE ELECTRIQUE ET AU GÉNIE INFORMATIQUE');
 INSERT INTO sessionuniversitaire(session_numero, session_programme, nom)
@@ -179,6 +179,16 @@ INSERT INTO sessionuniversitaire(session_numero, session_programme)
 VALUES(7, 'Genie Mecanique');
 INSERT INTO sessionuniversitaire(session_numero, session_programme)
 VALUES(8, 'Genie Mecanique');
+*/
+
+-- INSERTION DE NOUVELLE SESSIONS --
+
+INSERT INTO sessionuniversitaire(session_id, session_nom, date_debut, date_fin)
+VALUES('A19', 'automne 2019', '2019-08-26', '2019-12-22');
+INSERT INTO sessionuniversitaire(session_id, session_nom, date_debut, date_fin)
+VALUES('H20', 'Hivers 2020', '2020-01-07', '2020-04-23');
+INSERT INTO sessionuniversitaire(session_id, session_nom, date_debut, date_fin)
+VALUES('E20', 'automne 2019', '2020-04-27', '2020-08-10');
 
 -- Etudiants Tests
 
@@ -210,62 +220,45 @@ VALUES('lapf2312', 'Lapalme', 'Felix', 'Felix.Lapalme@USherbrooke.ca');
 -- Cours Tests
 
 INSERT INTO cours(cours_id, cours_nom)
-VALUES(0, 'GIF310');
+VALUES('GEN101', 'Resolution de probleme et conception en genie');
 INSERT INTO cours(cours_id, cours_nom)
-VALUES(1, 'GIF320');
+VALUES('GEN111', 'La communication et le travail en equipe');
 INSERT INTO cours(cours_id, cours_nom)
-VALUES(2, 'GIF360');
+VALUES('GEN122', 'Équations différentielles linéaires');
 INSERT INTO cours(cours_id, cours_nom)
-VALUES(3, 'GIF362');
+VALUES('GEN135', 'Circuits electriques I');
 INSERT INTO cours(cours_id, cours_nom)
-VALUES(4, 'GIF331');
+VALUES('GEN136', 'Circuits électriques II');
 INSERT INTO cours(cours_id, cours_nom)
-VALUES(5, 'GIF301');
+VALUES('GEN143', 'Introduction à la programmation');
 INSERT INTO cours(cours_id, cours_nom)
-VALUES(6, 'GIF340');
+VALUES('GEN144', 'Programmation et algorithmes');
 INSERT INTO cours(cours_id, cours_nom)
-VALUES(7, 'GIF301');
+VALUES('GEN145', 'Atelier de programmation');
 INSERT INTO cours(cours_id, cours_nom)
-VALUES(8, 'GEN280');
+VALUES('GIF302', 'Conception dun système informatique distribue');
 INSERT INTO cours(cours_id, cours_nom)
-VALUES(9, 'GEN400');
+VALUES('GIF332', 'Reseaux et protocoles de communication');
 INSERT INTO cours(cours_id, cours_nom)
-VALUES(10, 'GEN400');
-INSERT INTO cours(cours_id, cours_nom)
-VALUES(11, 'GEN180');
-INSERT INTO cours(cours_id, cours_nom)
-VALUES(12, 'GEN171');
-INSERT INTO cours(cours_id, cours_nom)
-VALUES(13, 'GEN122');
-INSERT INTO cours(cours_id, cours_nom)
-VALUES(14, 'GEN390');
-INSERT INTO cours(cours_id, cours_nom)
-VALUES(15, 'GEN350');
-INSERT INTO cours(cours_id, cours_nom)
-VALUES(16, 'GEN332');
-INSERT INTO cours(cours_id, cours_nom)
-VALUES(17, 'GEN380');
-INSERT INTO cours(cours_id, cours_nom)
-VALUES(18, 'GEN371');
-INSERT INTO cours(cours_id, cours_nom)
-VALUES(19, 'GEN302');
+VALUES('GIF350', 'Modeles de conception');
+
 
 --INSERTION DEXERCICES DE TEST --
 
 INSERT INTO exercice(exercice_nom, exercice_lien, exercice_vote, ajoute_par, cours_id)
-VALUES('pythagore', 'hola.com', 0, 'boug2128', 3);
-INSERT INTO exercice(exercice_nom, exercice_lien, exercice_vote, ajoute_par)
-VALUES('derivee partielle', 'hola.com', 0, 'boug2128', 4);
-INSERT INTO exercice(exercice_nom, exercice_lien, exercice_vote, ajoute_par)
-VALUES('derivee double', 'hola.com', 0, 'boug2128', 18);
-INSERT INTO exercice(exercice_nom, exercice_lien, exercice_vote, ajoute_par)
-VALUES('integral triple', 'hola.com', 0, 'boug2128', 18);
-INSERT INTO exercice(exercice_nom, exercice_lien, exercice_vote, ajoute_par)
-VALUES('gradient', 'hola.com', 0, 'boug2128', 19);
-INSERT INTO exercice(exercice_nom, exercice_lien, exercice_vote, ajoute_par)
-VALUES('circuit electrique de base', 'hola.com', 0, 'boug2128', 12);
-INSERT INTO exercice(exercice_nom, exercice_lien, exercice_vote, ajoute_par)
-VALUES('equivalenet thevenin', 'hola.com', 0, 'boug2128', 10);
+VALUES('pythagore', 'hola.com', 0, 'boug2128', 'GEN101');
+INSERT INTO exercice(exercice_nom, exercice_lien, exercice_vote, ajoute_par, cours_id)
+VALUES('derivee partielle', 'hola.com', 0, 'boug2128', 'GEN143');
+INSERT INTO exercice(exercice_nom, exercice_lien, exercice_vote, ajoute_par, cours_id)
+VALUES('derivee double', 'hola.com', 0, 'boug2128', 'GEN144');
+INSERT INTO exercice(exercice_nom, exercice_lien, exercice_vote, ajoute_par, cours_id)
+VALUES('integral triple', 'hola.com', 0, 'boug2128', 'GEN122');
+INSERT INTO exercice(exercice_nom, exercice_lien, exercice_vote, ajoute_par, cours_id)
+VALUES('gradient', 'hola.com', 0, 'boug2128', 'GIF302');
+INSERT INTO exercice(exercice_nom, exercice_lien, exercice_vote, ajoute_par, cours_id)
+VALUES('circuit electrique de base', 'hola.com', 0, 'boug2128', 'GIF332');
+INSERT INTO exercice(exercice_nom, exercice_lien, exercice_vote, ajoute_par, cours_id)
+VALUES('equivalent thevenin', 'hola.com', 0, 'boug2128', 'GIF350');
 
 
 
