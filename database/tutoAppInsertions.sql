@@ -250,6 +250,22 @@ VALUES(18, 'GEN371');
 INSERT INTO cours(cours_id, cours_nom)
 VALUES(19, 'GEN302');
 
+--INSERTION DEXERCICES DE TEST --
+
+INSERT INTO exercice(exercice_nom, exercice_lien, exercice_vote, ajoute_par, cours_id)
+VALUES('pythagore', 'hola.com', 0, 'boug2128', 3);
+INSERT INTO exercice(exercice_nom, exercice_lien, exercice_vote, ajoute_par)
+VALUES('derivee partielle', 'hola.com', 0, 'boug2128', 4);
+INSERT INTO exercice(exercice_nom, exercice_lien, exercice_vote, ajoute_par)
+VALUES('derivee double', 'hola.com', 0, 'boug2128', 18);
+INSERT INTO exercice(exercice_nom, exercice_lien, exercice_vote, ajoute_par)
+VALUES('integral triple', 'hola.com', 0, 'boug2128', 18);
+INSERT INTO exercice(exercice_nom, exercice_lien, exercice_vote, ajoute_par)
+VALUES('gradient', 'hola.com', 0, 'boug2128', 19);
+INSERT INTO exercice(exercice_nom, exercice_lien, exercice_vote, ajoute_par)
+VALUES('circuit electrique de base', 'hola.com', 0, 'boug2128', 12);
+INSERT INTO exercice(exercice_nom, exercice_lien, exercice_vote, ajoute_par)
+VALUES('equivalenet thevenin', 'hola.com', 0, 'boug2128', 10);
 
 
 
