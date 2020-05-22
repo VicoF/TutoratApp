@@ -7,19 +7,19 @@ INSERT INTO statut(statut_id, statut_nom) VALUES(2, 'enseignant');
 
 -- INSERTION DES PRIVILEGES
 
-INSERT INTO privilege(privilege_id, privilège_nom) 
+INSERT INTO privilege(privilege_id, privilege_nom) 
 VALUES(0, 'Peut voter exercice');
-INSERT INTO privilege(privilege_id, privilège_nom) 
+INSERT INTO privilege(privilege_id, privilege_nom) 
 VALUES(1, 'Peut approuver exercice');
-INSERT INTO privilege(privilege_id, privilège_nom) 
+INSERT INTO privilege(privilege_id, privilege_nom) 
 VALUES(2, 'Peut planifier Reunion');
-INSERT INTO privilege(privilege_id, privilège_nom) 
+INSERT INTO privilege(privilege_id, privilege_nom) 
 VALUES(3, 'Peut ajouter exercice');
-INSERT INTO privilege(privilege_id, privilège_nom) 
+INSERT INTO privilege(privilege_id, privilege_nom) 
 VALUES(4, 'Peut enlever exercice');
-INSERT INTO privilege(privilege_id, privilège_nom) 
+INSERT INTO privilege(privilege_id, privilege_nom) 
 VALUES(5, 'Peut mentore');
-INSERT INTO privilege(privilege_id, privilège_nom) 
+INSERT INTO privilege(privilege_id, privilege_nom) 
 VALUES(6, 'Peut supprimer une reunion');
 
 -- RELATION IMPLIQUEPRIVILEGE

@@ -34,7 +34,7 @@ CREATE TABLE statut
 CREATE TABLE privilege
 (
   privilege_id INT NOT NULL,
-  privilège_nom VARCHAR(64) NOT NULL,
+  privilege_nom VARCHAR(64) NOT NULL,
   PRIMARY KEY (privilege_id)
 );
 
@@ -162,7 +162,7 @@ CREATE TABLE reunion
   mentore CHAR(8) NOT NULL,
   date_debut TIMESTAMP NOT NULL,
   date_fin  TIMESTAMP NOT NULL,
-  numero_local INT NOT NULL,
+  numero_local VARCHAR(7) NOT NULL,
   mentor CHAR(8) NOT NULL,
   PRIMARY KEY (reunion_id),
   FOREIGN KEY (mentor) REFERENCES Utilisateur(cip),
