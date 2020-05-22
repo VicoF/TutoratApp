@@ -8,4 +8,9 @@
     FROM utilisateur
     WHERE utilisateur.cip = #{cip};
     </select>
+
+    <insert id="insertUtilisateur" parameterType="Utilisateur">
+        INSERT INTO utilisateur(cip, nom, prenom, email)
+        VALUES(#{cip}, #{nom}, #{prenom}, #{email});
+    </insert>
 </mapper>
