@@ -96,7 +96,7 @@ BEGIN
 	(
 		SELECT exercice_est_approuve 
 		FROM exercice
-		WHERE exercice_est_approuve IS NOT NULL and exercice_id = exercice_a_approuve
+		WHERE exercice_est_approuve AND exercice_id = exercice_a_approuve
 	) THEN
 		RAISE NOTICE 'Cet exercice est deja approuve';
 	ELSIF 2 IN
