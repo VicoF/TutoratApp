@@ -6,11 +6,12 @@ DROP TABLE jumelage;
 DROP TABLE inscription;
 DROP TABLE exercice;
 DROP TABLE sessionUniversitaire;
+DROP TABLE note;
 DROP TABLE cours;
 DROP TABLE privilege;
 DROP TABLE statut;
-DROP TABLE utilisateur;*/
-
+DROP TABLE utilisateur;
+*/
 
 
 CREATE TABLE utilisateur
@@ -29,6 +30,7 @@ CREATE TABLE statut
   PRIMARY KEY (statut_id)
 );
 
+
 CREATE TABLE privilege
 (
   privilege_id INT NOT NULL,
@@ -36,11 +38,28 @@ CREATE TABLE privilege
   PRIMARY KEY (privilege_id)
 );
 
+
+
 CREATE TABLE cours
 (
   cours_id VARCHAR(10) NOT NULL,
   cours_nom VARCHAR(64) NOT NULL,
   PRIMARY KEY (cours_id)
+);
+
+CREATE TABLE note
+(
+	cip CHAR(8) NOT NULL,
+	statut_id INT NOT NULL,
+	cours_id VARCHAR(10) NOT NULL,
+	donnee_par CHAR(8) NOT NULL,
+	note INT NOT NULL,
+	commentaire VARCHAR(256),
+	PRIMARY KEY (cip, statut_id, cours_id),
+	FOREIGN KEY (cip) REFERENCES Utilisateur(cip),
+	FOREIGN KEY (donnee_par) REFERENCES Utilisateur(cip),
+	FOREIGN KEY (statut_id) REFERENCES statut(statut_id),
+	FOREIGN KEY (cours_id) REFERENCES cours(cours_id)
 );
 
 /*
