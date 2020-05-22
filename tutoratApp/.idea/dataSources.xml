@@ -7,5 +7,11 @@
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
       <jdbc-url>jdbc:postgresql://zeus.gel.usherbrooke.ca:5432/s3iprojet03</jdbc-url>
     </data-source>
+    <data-source source="LOCAL" name="zeus" uuid="4b35c39e-9dd8-46b8-8439-5f0ea1123999">
+      <driver-ref>postgresql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>org.postgresql.Driver</jdbc-driver>
+      <jdbc-url>jdbc:postgresql://zeus.gel.usherbrooke.ca:5432/s3iprojet03</jdbc-url>
+    </data-source>
   </component>
 </project>
