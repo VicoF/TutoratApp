@@ -12,7 +12,6 @@ import java.util.List;
 @SuppressWarnings("CdiManagedBeanInconsistencyInspection")
 @Mapper
 public interface EtudiantMapper {
-
     List<Utilisateur> select(@Param("id") Integer id);
     void insertSessionUniversitaire(@Param("sessionuniversitaire") SessionUniversitaire session);
 }
