@@ -8,7 +8,6 @@ public class Utilisateur {
     private String nom;
 
 
-
     public String getCip() {
         return cip;
     }

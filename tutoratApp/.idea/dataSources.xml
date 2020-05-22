@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="DataSourceManagerImpl" format="xml" multifile-model="true">
-    <data-source source="LOCAL" name="tutoratAppDatabase@localhost" uuid="31cfee3a-2445-4d3c-8c3a-fb1bb34ade31">
+    <data-source source="LOCAL" name="s3iprojet03@zeus.gel.usherbrooke.ca" uuid="a5e698d0-85b7-49bc-b785-2b744fd54e0c">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
-      <jdbc-url>jdbc:postgresql://localhost:5432/tutoratAppDatabase</jdbc-url>
+      <jdbc-url>jdbc:postgresql://zeus.gel.usherbrooke.ca:5432/s3iprojet03</jdbc-url>
     </data-source>
     <data-source source="LOCAL" name="zeus" uuid="4b35c39e-9dd8-46b8-8439-5f0ea1123999">
       <driver-ref>postgresql</driver-ref>
