@@ -128,9 +128,11 @@ CREATE TABLE inscription
 CREATE TABLE jumelage
 (
   cours_id VARCHAR(10) NOT NULL,
+	session_id CHAR(3) NOT NULL,
   mentor CHAR(8) NOT NULL,
   mentore_par CHAR(8) NOT NULL,
-  PRIMARY KEY (cours_id, mentor, mentore_par),
+  PRIMARY KEY (cours_id, mentor, mentore_par, session_id),
+	FOREIGN KEY (session_id) REFERENCES SessionUniversitaire(session_id),
   FOREIGN KEY (cours_id) REFERENCES Cours(cours_id),
   FOREIGN KEY (mentor) REFERENCES Utilisateur(cip),
   FOREIGN KEY (mentore_par) REFERENCES Utilisateur(cip)
