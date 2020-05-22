@@ -1,10 +1,24 @@
+/*DROP TABLE utilisateurCotes;
+DROP TABLE reunion;
+DROP TABLE impliquePrivilege;
+DROP TABLE voteExercice;
+DROP TABLE jumelage;
+DROP TABLE inscription;
+DROP TABLE exercice;
+DROP TABLE sessionUniversitaire;
+DROP TABLE cours;
+DROP TABLE privilege;
+DROP TABLE statut;
+DROP TABLE utilisateur;*/
+
+
+
 CREATE TABLE utilisateur
 (
   cip CHAR(8) NOT NULL,
   nom VARCHAR(64) NOT NULL,
   prenom VARCHAR(64) NOT NULL,
   email VARCHAR(64) NOT NULL,
-  note INT,
   PRIMARY KEY (cip)
 );
 
@@ -51,8 +65,8 @@ CREATE TABLE exercice
 (
   exercice_id SERIAL,
   exercice_nom VARCHAR(128) NOT NULL,
-  exercice_lien VARCHAR(128) NOT NULL,
-  exercice_est_approuve CHAR(3),
+  exercice_lien VARCHAR NOT NULL,
+  exercice_est_approuve BOOLEAN DEFAULT FALSE,
   exercice_vote INT NOT NULL,
   cours_id VARCHAR(10) NOT NULL,
   ajoute_par CHAR(8) NOT NULL,
@@ -83,6 +97,7 @@ CREATE TABLE inscription
   session_id CHAR(3) NOT NULL,
   cip CHAR(8) NOT NULL,
   cours_id VARCHAR(10) NOT NULL,
+	note INT,
   PRIMARY KEY (session_id, cip, cours_id, statut_id),
   FOREIGN KEY (statut_id) REFERENCES Statut(statut_id),
   FOREIGN KEY (session_id) REFERENCES SessionUniversitaire(session_id),

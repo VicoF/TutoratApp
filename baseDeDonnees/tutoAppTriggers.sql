@@ -59,7 +59,7 @@ LANGUAGE 'plpgsql';
 CREATE TRIGGER verifie_insertion_inscription_bit
 BEFORE INSERT ON inscription
 FOR EACH ROW
-EXECUTE PROCEDURE verifie_insertion_inscription()
+EXECUTE PROCEDURE verifie_insertion_inscription();
 
 --MODIFICATION DE VOTE
 
@@ -84,7 +84,7 @@ BEGIN
     END IF;
 END;
 $$
-LANGUAGE 'plpgsql'
+LANGUAGE 'plpgsql';
 
 --Approbation dun exercice
 
@@ -92,11 +92,11 @@ CREATE OR REPLACE FUNCTION approve_exercice (utilisateur_cip CHAR(8), exercice_a
 RETURNS VOID AS
 $$
 BEGIN
-	IF EXISTS
+	IF
 	(
 		SELECT exercice_est_approuve 
 		FROM exercice
-		WHERE exercice_est_approuve IS NOT NULL and exercice_id = exercice_a_approuve
+		WHERE exercice_id = exercice_a_approuve
 	) THEN
 		RAISE NOTICE 'Cet exercice est deja approuve';
 	ELSIF 2 IN
@@ -106,14 +106,14 @@ BEGIN
 		WHERE cip = utilisateur_cip
 	) THEN
 		UPDATE exercice
-		SET exercice_est_approuve = 1
+		SET exercice_est_approuve = TRUE 
 		WHERE exercice_id = exercice_a_approuve;
 	ELSE
 		RAISE EXCEPTION 'Vous ne posseder pas le droit dapprouve un exercice';
 	END IF;
 END;
 $$
-LANGUAGE 'plpgsql'
+LANGUAGE 'plpgsql';
 
 -- TRIGGER POUR LAPPROBATION
 
