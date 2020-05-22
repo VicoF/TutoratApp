@@ -1,9 +1,8 @@
 package ca.usherbrooke.gegi.server.persistence;
 
-import ca.usherbrooke.gegi.server.business.Etudiant;
+import ca.usherbrooke.gegi.server.business.Utilisateur;
 
-import ca.usherbrooke.gegi.server.business.Universite;
-import ca.usherbrooke.gegi.server.business.Trimestre;
+import ca.usherbrooke.gegi.server.business.SessionUniversitaire;
 import org.apache.ibatis.annotations.Param;
 import org.mybatis.cdi.Mapper;
 
@@ -14,7 +13,6 @@ import java.util.List;
 @Mapper
 public interface EtudiantMapper {
 
-    List<Etudiant> select(@Param("id") Integer id);
-    void insertUniversite(@Param("universite") Universite universite);
-    void insertTrimestre(@Param("trimestre") Trimestre trimestre);
+    List<Utilisateur> select(@Param("id") Integer id);
+    void insertSessionUniversitaire(@Param("sessionuniversitaire") SessionUniversitaire session);
 }

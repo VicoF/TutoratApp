@@ -1,8 +1,8 @@
 package ca.usherbrooke.gegi.server.presentation;
 
-import ca.usherbrooke.gegi.server.business.Trimestre;
+import ca.usherbrooke.gegi.server.business.SessionUniversitaire;
 import ca.usherbrooke.gegi.server.persistence.EtudiantMapper;
-import ca.usherbrooke.gegi.server.business.Etudiant;
+import ca.usherbrooke.gegi.server.business.Utilisateur;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -30,9 +30,9 @@ public class EtudiantService {
     @Path("etudiant")
     @Produces("application/json")
 
-    public List<Etudiant> getEtudiant(@QueryParam("id") Integer id) {
+    public List<Utilisateur> getEtudiant(@QueryParam("id") Integer id) {
       //  System.out.println(httpServletRequest.getUserPrincipal().getName());
-        List<Etudiant> etudiants = etudiantMapper.select(id);
+        List<Utilisateur> etudiants = etudiantMapper.select(id);
         return etudiants;
     }
 
@@ -45,18 +45,18 @@ public class EtudiantService {
 
 
     @GET
-    @Path("insert_trimestre")
-    public void insertTrimestre() {
+    @Path("insert_session")
+    public void insertSession() {
 
             Client client = ClientBuilder.newClient();
-            WebTarget target = client.target("http://zeus.gel.usherbrooke.ca:8080/ms/rest/trimestre?inscription=2017-01-01");
+            WebTarget target = client.target("http://zeus.gel.usherbrooke.ca:8080/ms/rest/session?inscription=2017-01-01");
             Invocation.Builder  builder = target.request(MediaType.APPLICATION_JSON);
             Response response = builder.get();
 
-            List<Trimestre> trimestres = response.readEntity(new GenericType<List<Trimestre>>(){});
-            for (Trimestre trimestre : trimestres) {
-               etudiantMapper.insertTrimestre(trimestre);
-               System.out.println(trimestre);
+            List<SessionUniversitaire> sessions = response.readEntity(new GenericType<List<SessionUniversitaire>>(){});
+            for (SessionUniversitaire session : sessions) {
+               etudiantMapper.insertSessionUniversitaire(session);
+               System.out.println(session);
             }
 
 
