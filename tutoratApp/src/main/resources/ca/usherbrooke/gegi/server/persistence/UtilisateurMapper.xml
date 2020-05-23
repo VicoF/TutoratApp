@@ -9,7 +9,7 @@
     WHERE utilisateur.cip = #{cip};
     </select>
 
-    <insert id="insertUtilisateur" parameterType="Utilisateur">
+    <insert id="insertUtilisateur" >
         INSERT INTO utilisateur(cip, nom, prenom, email)
         VALUES(#{cip}, #{nom}, #{prenom}, #{email});
     </insert>

@@ -19,24 +19,26 @@ public class UtilisateurService {
     @Inject
     UtilisateurMapper utilisateurMapper;
 
+
+    @POST
+    @Path("InsertUtilisateur")
+    @Consumes("application/x-www-form-urlencoded")
+    @Produces("text/plain")
+    public String insertUtilisateur(@FormParam("cip") String cip, @FormParam("nom") String nom, @FormParam("prenom") String prenom, @FormParam("email") String email)
+    {
+        utilisateurMapper.insertUtilisateur(cip,nom,prenom,email);
+        return "Done :) Passez une merveilleuse journee";
+    }
+
     @GET
     @Path("Utilisateur")
     @Produces("application/json")
-
     public List<Utilisateur> getUtilisateur(@QueryParam("cip") String cip) {
         //  System.out.println(httpServletRequest.getUserPrincipal().getName());
-        List<Utilisateur> utilisateurs = utilisateurMapper.select(cip);
+        List<Utilisateur> utilisateurs = utilisateurMapper.select(httpServletRequest.getUserPrincipal().getName());
         return utilisateurs;
     }
 
-    @GET
-    @Path("InsertUtilisateur")
-    @Produces("text/plain")
-    public String insertUtilisateur(@QueryParam("cip") String cip, @QueryParam("nom") String nom,
-                                  @QueryParam("prenom") String prenom, @QueryParam("email") String email)
-    {
-        utilisateurMapper.insertUtilisateur(cip, nom, prenom, email);
-        return "Done :) Passez une merveilleuse journee";
-    }
+
 
 }
