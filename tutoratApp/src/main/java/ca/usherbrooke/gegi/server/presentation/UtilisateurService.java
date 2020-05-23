@@ -39,10 +39,4 @@ public class UtilisateurService {
         return "Done :) Passez une merveilleuse journee";
     }
 
-
-
-
-
-
-
 }
