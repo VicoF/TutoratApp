@@ -27,20 +27,24 @@
     <button type="submit">Submit</button>
 </form>
 
-<h1>Bouton de tests</h1>
-<form action="api/Test" method="get">
-    <label>Prénom</label>
-    <input type="text" id="champ_prenom" readonly>
-    <br>
-    <label>Nom</label>
-    <input type="text" id="champ_nom" readonly>
-    <br>
-    <label>Email</label>
-    <input type="text" id="champ_email" readonly>
-    <br>
-    <button type="submit">AUTO FILL</button>
-</form>
+<h1>Inscription</h1>
+<h2>Je veux m'inscrire en tant que</h2>
 
+    <button id="bouton_mentor">Mentor</button>
+<br>
+<button id="bouton_mentore">Mentoré</button>
+
+<script type="text/javascript">
+    document.getElementById("bouton_mentor").onclick = function () {
+        location.href = window.location.href+"api/inscriptionMentor";
+    };
+</script>
+
+<script type="text/javascript">
+    document.getElementById("bouton_mentore").onclick = function () {
+        location.href = window.location.href+"api/inscriptionMentore";
+    };
+</script>
 
 <!--
 <form action="api/Etudiant">

@@ -31,22 +31,70 @@ public class UtilisateurService {
     @Inject
     UtilisateurMapper utilisateurMapper;
 
+    @GET
+    @Path("inscriptionMentor")
+    @Produces("text/html")
+    public String inscriptionMentor(){
 
+        Document doc=null;
+
+        try {
+            File allo = new File(String.valueOf(httpServletRequest.getServletContext().getRealPath("/inscriptionMentor.html")));
+            doc = Jsoup.parse(allo, "UTF-8");
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Map<String, Object> attributes = ((AttributePrincipal) httpServletRequest.getUserPrincipal()).getAttributes();
+
+        Element prenom = doc.selectFirst("input[id=champ_prenom]");
+        prenom.attr("value", (String) attributes.get("prenom"));
+
+        Element nom = doc.selectFirst("input[id=champ_nom]");
+        nom.attr("value", (String) attributes.get("nomFamille"));
+
+        Element email = doc.selectFirst("input[id=champ_email]");
+        email.attr("value", (String) attributes.get("courriel"));
+
+        return doc.outerHtml();
+    }
+
+    @GET
+    @Path("inscriptionMentore")
+    @Produces("text/html")
+    public String inscriptionMentore(){
+
+        Document doc=null;
+
+        try {
+            File allo = new File(String.valueOf(httpServletRequest.getServletContext().getRealPath("/inscriptionMentore.html")));
+            doc = Jsoup.parse(allo, "UTF-8");
+        } catch (MalformedURLException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Map<String, Object> attributes = ((AttributePrincipal) httpServletRequest.getUserPrincipal()).getAttributes();
+
+        Element prenom = doc.selectFirst("input[id=champ_prenom]");
+        prenom.attr("value", (String) attributes.get("prenom"));
+
+        Element nom = doc.selectFirst("input[id=champ_nom]");
+        nom.attr("value", (String) attributes.get("nomFamille"));
+
+        Element email = doc.selectFirst("input[id=champ_email]");
+        email.attr("value", (String) attributes.get("courriel"));
+
+        return doc.outerHtml();
+    }
 
     @GET
     @Path("Test")
     @Produces("text/html")
     public String test(){
-       /* String s="";
-        Map<String, Object> attributes = ((AttributePrincipal) httpServletRequest.getUserPrincipal()).getAttributes();
-        for (Map.Entry<String, Object> entry : attributes.entrySet())
-        {
-            s+=(entry.getKey() + "/" + entry.getValue()+"\n");
-        }
-
-        return (s);*/
-        //return Main.class.getPackageName();
-    //return this.getClass().getClassLoader().getResource("webapp/index.html");
 
         Document doc=null;
 
