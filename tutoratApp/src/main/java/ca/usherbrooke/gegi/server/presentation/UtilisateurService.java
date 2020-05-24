@@ -140,7 +140,7 @@ public class UtilisateurService {
     @Produces("application/json")
     public List<Utilisateur> getUtilisateur(@QueryParam("cip") String cip) {
         //  System.out.println(httpServletRequest.getUserPrincipal().getName());
-        List<Utilisateur> utilisateurs = utilisateurMapper.select(httpServletRequest.getUserPrincipal().getName());
+        List<Utilisateur> utilisateurs = utilisateurMapper.select(cip);
         return utilisateurs;
     }
 
