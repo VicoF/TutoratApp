@@ -18,7 +18,9 @@ import javax.ws.rs.core.Context;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Map;
 
@@ -39,8 +41,8 @@ public class UtilisateurService {
         Document doc=null;
 
         try {
-            File allo = new File(String.valueOf(httpServletRequest.getServletContext().getRealPath("/inscriptionMentor.html")));
-            doc = Jsoup.parse(allo, "UTF-8");
+            File file = new File(String.valueOf(httpServletRequest.getServletContext().getRealPath("/inscriptionMentor.html")));
+            doc = Jsoup.parse(file, "UTF-8");
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -50,10 +52,11 @@ public class UtilisateurService {
         Map<String, Object> attributes = ((AttributePrincipal) httpServletRequest.getUserPrincipal()).getAttributes();
 
         Element prenom = doc.selectFirst("input[id=champ_prenom]");
-        prenom.attr("value", (String) attributes.get("prenom"));
+        //la valeur est stockée dans un mauvais encodage (qui ne supporte pas les accents), donc on la convertie
+        prenom.attr("value", new String(((String) attributes.get("prenom")).getBytes(), StandardCharsets.UTF_8));
 
         Element nom = doc.selectFirst("input[id=champ_nom]");
-        nom.attr("value", (String) attributes.get("nomFamille"));
+        nom.attr("value", new String(((String) attributes.get("nomFamille")).getBytes(), StandardCharsets.UTF_8));
 
         Element email = doc.selectFirst("input[id=champ_email]");
         email.attr("value", (String) attributes.get("courriel"));
@@ -69,8 +72,8 @@ public class UtilisateurService {
         Document doc=null;
 
         try {
-            File allo = new File(String.valueOf(httpServletRequest.getServletContext().getRealPath("/inscriptionMentore.html")));
-            doc = Jsoup.parse(allo, "UTF-8");
+            File file = new File(String.valueOf(httpServletRequest.getServletContext().getRealPath("/inscriptionMentore.html")));
+            doc = Jsoup.parse(file, "UTF-8");
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -80,10 +83,11 @@ public class UtilisateurService {
         Map<String, Object> attributes = ((AttributePrincipal) httpServletRequest.getUserPrincipal()).getAttributes();
 
         Element prenom = doc.selectFirst("input[id=champ_prenom]");
-        prenom.attr("value", (String) attributes.get("prenom"));
+        //la valeur est stockée dans un mauvais encodage (qui ne supporte pas les accents), donc on la convertie
+        prenom.attr("value", new String(((String) attributes.get("prenom")).getBytes(), StandardCharsets.UTF_8));
 
         Element nom = doc.selectFirst("input[id=champ_nom]");
-        nom.attr("value", (String) attributes.get("nomFamille"));
+        nom.attr("value", new String(((String) attributes.get("nomFamille")).getBytes(), StandardCharsets.UTF_8));
 
         Element email = doc.selectFirst("input[id=champ_email]");
         email.attr("value", (String) attributes.get("courriel"));
@@ -99,8 +103,8 @@ public class UtilisateurService {
         Document doc=null;
 
         try {
-             File allo = new File(String.valueOf(httpServletRequest.getServletContext().getRealPath("/index.html")));
-            doc = Jsoup.parse(allo, "UTF-8");
+             File file = new File(String.valueOf(httpServletRequest.getServletContext().getRealPath("/index.html")));
+            doc = Jsoup.parse(file, "UTF-8");
         } catch (MalformedURLException e) {
             e.printStackTrace();
         } catch (IOException e) {
