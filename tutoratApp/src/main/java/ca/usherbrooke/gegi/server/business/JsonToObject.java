@@ -13,11 +13,16 @@ import java.util.List;
 
 /*
     * Nous va falloir creer notre objet java representant les resultats du query pour que ca fonctionne
-    * au lieu davoir une methode qui mapAObjet, on peut ecrire une methode mapCours, mapReservation, etc...
+    * au lieu davoir une methode qui mapAObjet, on peut ecrire une methode mapCours, mapReservation, etc... LB
  */
 public class JsonToObject {
 
-    private static final String POSTS_API_URL = "https://jsonplaceholder.typicode.com/posts";
+    //private static String POSTS_API_URL = "https://jsonplaceholder.typicode.com/posts";
+    private static String POSTS_API_URL;
+
+    public JsonToObject(String link) {
+        POSTS_API_URL = link;
+    }
 
     public static void mapToObject() throws IOException, InterruptedException {
         /*
@@ -25,7 +30,7 @@ public class JsonToObject {
          * On specifie le type (GET())
          * Le header c juste ce que on veut accepter. Dans notre cas on accepte du JSON
          * Le URI cest le lieu quon va chercher le JSON
-         * Le build ca fait juste construire le tout
+         * Le build ca fait juste construire le tout LB
          */
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
@@ -35,7 +40,7 @@ public class JsonToObject {
                 .build();
 
         // Ici on envoie la requete et on prend juste le body quon transforme en string et on store ca dans une
-        // reponse HTTP de type String
+        // reponse HTTP de type String LB
         HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
         System.out.println(response.body());
@@ -43,13 +48,17 @@ public class JsonToObject {
         //parse JSON into Objects
         /*
          * Creer un obectMapper qui nous permet de mapper la reponse quon a obtenu en objet Java
-         * Ensuite on lit ce quil y a dans le mapper et on le met dans une liste de Posts (TEST)
+         * Ensuite on lit ce quil y a dans le mapper et on le met dans une liste de Posts (TEST) LB
          */
-        //IMPORTANT : Jai mis cours pour que ca compile, je nai rien tester encore
+        //IMPORTANT : Jai mis Album pour que ca compile et pour tester LB
         ObjectMapper mapper = new ObjectMapper();
-        List<Cours> posts = mapper.readValue(response.body(), new TypeReference<List<Cours>>() {});
+        List<Album> posts = mapper.readValue(response.body(), new TypeReference<List<Album>>() {});
 
         posts.forEach(System.out::println);
 
+    }
+
+    public static String getPostsApiUrl() {
+        return POSTS_API_URL;
     }
 }

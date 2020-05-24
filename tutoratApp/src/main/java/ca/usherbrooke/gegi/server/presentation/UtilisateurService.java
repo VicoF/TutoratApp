@@ -1,6 +1,7 @@
 package ca.usherbrooke.gegi.server.presentation;
 
 
+import ca.usherbrooke.gegi.server.business.JsonToObject;
 import ca.usherbrooke.gegi.server.business.Utilisateur;
 import ca.usherbrooke.gegi.server.persistence.UtilisateurMapper;
 import com.sun.tools.javac.Main;
@@ -32,6 +33,19 @@ public class UtilisateurService {
 
     @Inject
     UtilisateurMapper utilisateurMapper;
+
+    @GET
+    @Path("album")
+    @Produces("text/html")
+    public String getAlbum() throws IOException, InterruptedException {
+        //String que l'on done comme lien pour get les objets java
+        String url = "https://jsonplaceholder.typicode.com/albums";
+        //Creer le mapper qui s'occupe de tout transformer
+        JsonToObject mapper = new JsonToObject(url);
+        mapper.mapToObject();
+
+        return "Done";
+    }
 
     @GET
     @Path("inscriptionMentor")
