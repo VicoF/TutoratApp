@@ -1,51 +1,51 @@
 package ca.usherbrooke.gegi.server.business;
 
-import org.json.JSONArray;
-import org.json.JSONObject;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+
+import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.List;
 
 public class JsonToObject {
 
-    /*
-        Classe pour transformer notre JSON en java
-     */
-    public static void request(String toURI){
-        //Method 1: java.net.http.HttpClient. Ca handle les connections asynchronement
+    private static final String POSTS_API_URL = "https://jsonplaceholder.typicode.com/posts";
+
+    public static void mapToObject() throws IOException, InterruptedException {
         /*
-         * Construction du client et de la requete On veut ensuite envoyer cette requete au client de facon
-         * asynchrone pour ne pas bloquer le reste de nos operations. Le deuxieme parametre de sendAsync veut
-         * dire quon veut recevoir la reponse en string. Ensuite on veut le body de la reponse (ligne 82) puis on
-         * veut limprimer avec println. le :: est une expression lambda. Le join retourne le resultat
-         *
-         *
-         * Pour le gradle:
-         * compile group: 'org.json', name: 'json', version: '20200518'
+         * Creer la requete a envoyer au client.
+         * On specifie le type (GET())
+         * Le header c juste ce que on veut accepter. Dans notre cas on accepte du JSON
+         * Le URI cest le lieu quon va chercher le JSON
+         * Le build ca fait juste construire le tout
          */
         HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder().uri(URI.create(toURI)).build();
-        client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
-                .thenApply(HttpResponse::body)
-                .thenApply(JsonToObject::parse)
-                .join();
+        HttpRequest request = HttpRequest.newBuilder()
+                .GET()
+                .header("accept", "application/json")
+                .uri(URI.create(POSTS_API_URL))
+                .build();
+
+        // Ici on envoie la requete et on prend juste le body quon transforme en string et on store ca dans une
+        // reponse HTTP de type String
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+        System.out.println(response.body());
+
+        //parse JSON into Objects
+        /*
+         * Creer un obectMapper qui nous permet de mapper la reponse quon a obtenu en objet Java
+         * Ensuite on lit ce quil y a dans le mapper et on le met dans une liste de Posts (TEST)
+         */
+        //IMPORTANT : Jai mis cours pour que ca compile, je nai rien tester encore 
+        ObjectMapper mapper = new ObjectMapper();
+        List<Cours> posts = mapper.readValue(response.body(), new TypeReference<List<Cours>>() {});
+
+        posts.forEach(System.out::println);
+
     }
-
-    public static String parse(String responseBody)
-    {
-        JSONArray albums = new JSONArray(responseBody);
-        for (int i = 0; i<albums.length(); i++)
-        {
-            JSONObject album = albums.getJSONObject(i);
-            int id = album.getInt("id");
-            int userId = album.getInt("userId");
-            String title = album.getString("title");
-
-            System.out.println(id + " "+ title + " " + userId);
-        }
-
-        return "Done!";
-    }
-
 }
