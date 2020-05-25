@@ -53,7 +53,6 @@ public class JsonToObject {
         //IMPORTANT : Jai mis Album pour que ca compile et pour tester LB
         ObjectMapper mapper = new ObjectMapper();
         List<Album> posts = mapper.readValue(response.body(), new TypeReference<List<Album>>() {});
-
         posts.forEach(System.out::println);
 
     }
