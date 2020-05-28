@@ -9,7 +9,10 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
+import java.util.ListIterator;
 
 /*
     * Nous va falloir creer notre objet java representant les resultats du query pour que ca fonctionne
@@ -24,7 +27,7 @@ public class JsonToObject {
         POSTS_API_URL = link;
     }
 
-    public static void mapToObject() throws IOException, InterruptedException {
+    public static List<CoursDep> mapToObject() throws IOException, InterruptedException {
         /*
          * Creer la requete a envoyer au client.
          * On specifie le type (GET())
@@ -50,10 +53,11 @@ public class JsonToObject {
          * Creer un obectMapper qui nous permet de mapper la reponse quon a obtenu en objet Java
          * Ensuite on lit ce quil y a dans le mapper et on le met dans une liste de Posts (TEST) LB
          */
-        //IMPORTANT : Jai mis Album pour que ca compile et pour tester LB
         ObjectMapper mapper = new ObjectMapper();
-        List<Album> posts = mapper.readValue(response.body(), new TypeReference<List<Album>>() {});
+        List<CoursDep> posts = mapper.readValue(response.body(), new TypeReference<List<CoursDep>>() {});
         posts.forEach(System.out::println);
+
+        return posts;
 
     }
 

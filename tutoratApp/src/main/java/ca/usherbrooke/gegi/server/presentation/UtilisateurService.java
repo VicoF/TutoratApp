@@ -2,6 +2,7 @@ package ca.usherbrooke.gegi.server.presentation;
 
 
 import ca.usherbrooke.gegi.server.business.Album;
+import ca.usherbrooke.gegi.server.business.CoursDep;
 import ca.usherbrooke.gegi.server.business.JsonToObject;
 import ca.usherbrooke.gegi.server.business.Utilisateur;
 import ca.usherbrooke.gegi.server.persistence.UtilisateurMapper;
@@ -23,6 +24,7 @@ import java.io.InputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.MalformedURLException;
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -40,10 +42,13 @@ public class UtilisateurService {
     @Produces("application/json")
     public String getAlbum() throws IOException, InterruptedException {
         //String que l'on done comme lien pour get les objets java
-        String url = "https://jsonplaceholder.typicode.com/albums";
+        String url = "http://zeus.gel.usherbrooke.ca:8080/ms/rest/groupe_cours?inscription=2017-01-01";
         //Creer le mapper qui s'occupe de tout transformer
         JsonToObject mapper = new JsonToObject(url);
-        mapper.mapToObject();
+        List<CoursDep> cours = mapper.mapToObject();
+
+        //Pour inserer les cours dans la base de donnee
+        //insertCours(cours);
         return "Done! veuillez voir la console :)";
     }
 
@@ -156,6 +161,17 @@ public class UtilisateurService {
         //  System.out.println(httpServletRequest.getUserPrincipal().getName());
         List<Utilisateur> utilisateurs = utilisateurMapper.select(cip);
         return utilisateurs;
+    }
+
+    @POST
+    @Path("InsertUtilisateur")
+    @Produces("text/plain")
+    //Fonction qui insere des cours dans notre base de donnee LB
+    public String insertCours(List<CoursDep> coursAImporter){
+        for (CoursDep cours : coursAImporter){
+            utilisateurMapper.insertCours(cours.getAp_id(), cours.getDepartement_id(), cours.getDescription(), cours.getTrimestre_id());
+        }
+        return "Le tout est insere dans la base de donnee";
     }
 
 
