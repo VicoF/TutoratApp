@@ -3,9 +3,12 @@ package ca.usherbrooke.gegi.server.presentation;
 
 import ca.usherbrooke.gegi.server.business.Album;
 import ca.usherbrooke.gegi.server.business.CoursDep;
+import ca.usherbrooke.gegi.server.business.Album;
 import ca.usherbrooke.gegi.server.business.JsonToObject;
 import ca.usherbrooke.gegi.server.business.Utilisateur;
 import ca.usherbrooke.gegi.server.persistence.UtilisateurMapper;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.sun.tools.javac.Main;
 import org.jasig.cas.client.authentication.AttributePrincipal;
 
@@ -15,16 +18,28 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 import javax.inject.Inject;
+import javax.json.Json;
+import javax.json.JsonArray;
+import javax.json.JsonObject;
+import javax.json.stream.JsonParser;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
+import java.net.URI;
+import java.net.URL;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -162,6 +177,13 @@ public class UtilisateurService {
         List<Utilisateur> utilisateurs = utilisateurMapper.select(cip);
         return utilisateurs;
     }
+    @GET
+    @Path("Trimestre")
+    @Produces("text/plain")
+    public String getTrimestreCourant(){
+        //Obtention de la date actuelle
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate currentDate = LocalDate.now();
 
     @POST
     @Path("InsertUtilisateur")
@@ -173,7 +195,57 @@ public class UtilisateurService {
         }
         return "Le tout est insere dans la base de donnee";
     }
+        //Création de la requête pour obtenir la liste des trimestres
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+                .GET()
+                .header("accept", "application/json")
+                .uri(URI.create("http://zeus.gel.usherbrooke.ca:8080/ms/rest/trimestre?inscription=2017-01-01"))
+                .build();
 
+        // Ici on envoie la requete et on prend juste le body quon transforme en string et on store ca dans une
+        // reponse HTTP de type String LB
+        HttpResponse<String> response = null;
+        try {
+            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+
+        //parse JSON into Objects
+        /*
+         * Crée un parser à partir de la string qui contient le JSON
+         * Itere le parser jusqu'à atteindre le début de l'array
+         */
+
+        JsonParser parser = Json.createParser(new StringReader(response.body()));
+        while(parser.hasNext()){
+            JsonParser.Event event = parser.next();
+            if (event.equals(JsonParser.Event.START_ARRAY)){
+                break;
+            }
+        }
+        //On obtient le array, puis on en extrait les objets
+        //On vérifie si l'objet est le trimestre courant.
+        JsonArray trimestres = parser.getArray();
+        String reponse = "";
+        for(int i =0; i< trimestres.size();i++){
+            JsonObject obj = trimestres.getJsonObject(i);
+            String debut= obj.getString("debut");
+            String fin= obj.getString("fin");
+            LocalDate dateDebut = LocalDate.parse(debut,dtf);
+            LocalDate dateFin = LocalDate.parse(fin,dtf);
+            if(currentDate.isAfter(dateDebut)&&currentDate.isBefore(dateFin)){
+                reponse= obj.getString("trimestre_id");
+                break;
+            }
+        }
+        System.out.println(reponse);
+        return reponse;
+    }
 
 
 }

@@ -1,8 +1,13 @@
 package ca.usherbrooke.gegi.server.business;
 
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import java.util.Date;
 
 public class Reunion {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private int reunion_id;
     private String mentore;
     private String mentor;

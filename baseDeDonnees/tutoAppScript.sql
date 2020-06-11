@@ -1,25 +1,10 @@
-/*DROP TABLE utilisateurCotes;
-DROP TABLE reunion;
-DROP TABLE impliquePrivilege;
-DROP TABLE voteExercice;
-DROP TABLE jumelage;
-DROP TABLE inscription;
-DROP TABLE exercice;
-DROP TABLE sessionUniversitaire;
-DROP TABLE note;
-DROP TABLE cours;
-DROP TABLE privilege;
-DROP TABLE statut;
-DROP TABLE utilisateur;
-*/
-
-
 CREATE TABLE utilisateur
 (
   cip CHAR(8) NOT NULL,
   nom VARCHAR(64) NOT NULL,
   prenom VARCHAR(64) NOT NULL,
   email VARCHAR(64) NOT NULL,
+  note INT,
   PRIMARY KEY (cip)
 );
 
@@ -30,36 +15,18 @@ CREATE TABLE statut
   PRIMARY KEY (statut_id)
 );
 
-
 CREATE TABLE privilege
 (
   privilege_id INT NOT NULL,
-  privilege_nom VARCHAR(64) NOT NULL,
+  privilège_nom VARCHAR(64) NOT NULL,
   PRIMARY KEY (privilege_id)
 );
-
-
 
 CREATE TABLE cours
 (
   cours_id VARCHAR(10) NOT NULL,
   cours_nom VARCHAR(64) NOT NULL,
   PRIMARY KEY (cours_id)
-);
-
-CREATE TABLE note
-(
-	cip CHAR(8) NOT NULL,
-	statut_id INT NOT NULL,
-	cours_id VARCHAR(10) NOT NULL,
-	donnee_par CHAR(8) NOT NULL,
-	note INT NOT NULL,
-	commentaire VARCHAR(256),
-	PRIMARY KEY (cip, statut_id, cours_id),
-	FOREIGN KEY (cip) REFERENCES Utilisateur(cip),
-	FOREIGN KEY (donnee_par) REFERENCES Utilisateur(cip),
-	FOREIGN KEY (statut_id) REFERENCES statut(statut_id),
-	FOREIGN KEY (cours_id) REFERENCES cours(cours_id)
 );
 
 /*
@@ -84,8 +51,8 @@ CREATE TABLE exercice
 (
   exercice_id SERIAL,
   exercice_nom VARCHAR(128) NOT NULL,
-  exercice_lien VARCHAR NOT NULL,
-  exercice_est_approuve BOOLEAN DEFAULT FALSE,
+  exercice_lien VARCHAR(128) NOT NULL,
+  exercice_est_approuve CHAR(3),
   exercice_vote INT NOT NULL,
   cours_id VARCHAR(10) NOT NULL,
   ajoute_par CHAR(8) NOT NULL,
@@ -116,7 +83,6 @@ CREATE TABLE inscription
   session_id CHAR(3) NOT NULL,
   cip CHAR(8) NOT NULL,
   cours_id VARCHAR(10) NOT NULL,
-	note INT,
   PRIMARY KEY (session_id, cip, cours_id, statut_id),
   FOREIGN KEY (statut_id) REFERENCES Statut(statut_id),
   FOREIGN KEY (session_id) REFERENCES SessionUniversitaire(session_id),
@@ -128,11 +94,9 @@ CREATE TABLE inscription
 CREATE TABLE jumelage
 (
   cours_id VARCHAR(10) NOT NULL,
-	session_id CHAR(3) NOT NULL,
   mentor CHAR(8) NOT NULL,
   mentore_par CHAR(8) NOT NULL,
-  PRIMARY KEY (cours_id, mentor, mentore_par, session_id),
-	FOREIGN KEY (session_id) REFERENCES SessionUniversitaire(session_id),
+  PRIMARY KEY (cours_id, mentor, mentore_par),
   FOREIGN KEY (cours_id) REFERENCES Cours(cours_id),
   FOREIGN KEY (mentor) REFERENCES Utilisateur(cip),
   FOREIGN KEY (mentore_par) REFERENCES Utilisateur(cip)
@@ -162,7 +126,7 @@ CREATE TABLE reunion
   mentore CHAR(8) NOT NULL,
   date_debut TIMESTAMP NOT NULL,
   date_fin  TIMESTAMP NOT NULL,
-  numero_local VARCHAR(7) NOT NULL,
+  numero_local INT NOT NULL,
   mentor CHAR(8) NOT NULL,
   PRIMARY KEY (reunion_id),
   FOREIGN KEY (mentor) REFERENCES Utilisateur(cip),
