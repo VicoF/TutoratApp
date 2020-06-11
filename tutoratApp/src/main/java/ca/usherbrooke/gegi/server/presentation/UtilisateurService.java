@@ -177,13 +177,6 @@ public class UtilisateurService {
         List<Utilisateur> utilisateurs = utilisateurMapper.select(cip);
         return utilisateurs;
     }
-    @GET
-    @Path("Trimestre")
-    @Produces("text/plain")
-    public String getTrimestreCourant(){
-        //Obtention de la date actuelle
-        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-        LocalDate currentDate = LocalDate.now();
 
     @POST
     @Path("InsertUtilisateur")
@@ -195,6 +188,16 @@ public class UtilisateurService {
         }
         return "Le tout est insere dans la base de donnee";
     }
+    
+    @GET
+    @Path("Trimestre")
+    @Produces("text/plain")
+    public String getTrimestreCourant(){
+        //Obtention de la date actuelle
+        DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        LocalDate currentDate = LocalDate.now();
+
+
         //Création de la requête pour obtenir la liste des trimestres
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
