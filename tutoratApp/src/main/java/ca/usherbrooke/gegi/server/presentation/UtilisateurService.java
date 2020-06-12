@@ -188,7 +188,7 @@ public class UtilisateurService {
         }
         return "Le tout est insere dans la base de donnee";
     }
-    
+
     @GET
     @Path("Trimestre")
     @Produces("text/plain")
@@ -197,34 +197,12 @@ public class UtilisateurService {
         DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
         LocalDate currentDate = LocalDate.now();
 
-
-        //Création de la requête pour obtenir la liste des trimestres
-        HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder()
-                .GET()
-                .header("accept", "application/json")
-                .uri(URI.create("http://zeus.gel.usherbrooke.ca:8080/ms/rest/trimestre?inscription=2017-01-01"))
-                .build();
-
-        // Ici on envoie la requete et on prend juste le body quon transforme en string et on store ca dans une
-        // reponse HTTP de type String LB
-        HttpResponse<String> response = null;
-        try {
-            response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
-
         //parse JSON into Objects
         /*
          * Crée un parser à partir de la string qui contient le JSON
          * Itere le parser jusqu'à atteindre le début de l'array
          */
-
-        JsonParser parser = Json.createParser(new StringReader(response.body()));
+        JsonParser parser = Json.createParser(new StringReader(makeGetRequest("http://zeus.gel.usherbrooke.ca:8080/ms/rest/trimestre?inscription=2017-01-01")));
         while(parser.hasNext()){
             JsonParser.Event event = parser.next();
             if (event.equals(JsonParser.Event.START_ARRAY)){
@@ -246,9 +224,68 @@ public class UtilisateurService {
                 break;
             }
         }
-        System.out.println(reponse);
         return reponse;
     }
 
+    @GET
+    @Path("Cours")
+    @Produces("text/plain")
+    public String getCoursCourant(){
+        String trimestreParam = "trimestre_id="+getTrimestreCourant();
 
+        String url =  "http://zeus.gel.usherbrooke.ca:8080/ms/rest/etudiant_groupe?inscription=2017-01-01" + "&" + trimestreParam + "&cip_etudiant=" + httpServletRequest.getUserPrincipal().getName();
+
+        //parse JSON into Objects
+        /*
+         * Crée un parser à partir de la string qui contient le JSON
+         * Itere le parser jusqu'à atteindre le début de l'array
+         */
+        JsonParser parser = Json.createParser(new StringReader(makeGetRequest(url)));
+        while(parser.hasNext()){
+            JsonParser.Event event = parser.next();
+            if (event.equals(JsonParser.Event.START_ARRAY)){
+                break;
+            }
+        }
+
+        //On obtient le array, puis on en extrait les objets
+        //On stock le nom de l'app
+        JsonArray groupes = parser.getArray();
+        List<String> reponse = new ArrayList<>();
+        for(int i =0; i< groupes.size();i++){
+            JsonObject obj = groupes.getJsonObject(i);
+            String cours= obj.getString("app");
+           reponse.add(cours);
+        }
+        System.out.println(reponse);
+        return reponse.toString();
+
+    }
+
+    /**
+     * Permet d'obtenir l'information contenu sur une certaine page à l'aide d'une requête GET
+     * @param url
+     * @return
+     */
+    private String makeGetRequest(String url){
+        //Création de la requête pour obtenir la liste des trimestres
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+                .GET()
+                .header("accept", "application/json")
+                .uri(URI.create(url))
+                .build();
+
+        // Ici on envoie la requete et on prend juste le body quon transforme en string et on store ca dans une
+        // reponse HTTP de type String LB
+        HttpResponse<String> response = null;
+        try {
+            response = client.send(request, HttpResponse.BodyHandlers.ofString());
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return response.body();
+    }
 }
