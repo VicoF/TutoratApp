@@ -1,15 +1,14 @@
 package ca.usherbrooke.gegi.server.presentation;
 
 
-import ca.usherbrooke.gegi.server.business.Album;
+
 import ca.usherbrooke.gegi.server.business.CoursDep;
-import ca.usherbrooke.gegi.server.business.Album;
 import ca.usherbrooke.gegi.server.business.JsonToObject;
 import ca.usherbrooke.gegi.server.business.Utilisateur;
 import ca.usherbrooke.gegi.server.persistence.UtilisateurMapper;
-import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.sun.tools.javac.Main;
+
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import org.jasig.cas.client.authentication.AttributePrincipal;
 
 
@@ -25,25 +24,21 @@ import javax.json.stream.JsonParser;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
+import javax.ws.rs.core.Response;
 import java.io.*;
-import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URI;
-import java.net.URL;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-@Path("")
+@Path("users")
 public class UtilisateurService {
 
     @Context
@@ -51,6 +46,25 @@ public class UtilisateurService {
 
     @Inject
     UtilisateurMapper utilisateurMapper;
+
+    @POST
+    @Consumes("application/json")
+    public Response ajouterUtilisateur(String json){
+        Gson gson = new Gson();
+        Utilisateur user;
+        try {
+             user = gson.fromJson(json, Utilisateur.class);
+        } catch (JsonSyntaxException e){
+            return Response.serverError().entity("Format du JSON invalide" + e.getLocalizedMessage()).build();
+        }
+        if (user!=null) {
+            utilisateurMapper.insertUtilisateur(user.getCip(),user.getNom(),user.getPrenom(),user.getEmail());
+        }else{
+            return Response.serverError().entity("Fichier JSON est vide").build();
+        }
+
+        return Response.ok().build();
+    }
 
     @GET
     @Path("album")

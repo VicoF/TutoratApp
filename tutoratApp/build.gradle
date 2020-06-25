@@ -15,6 +15,7 @@ dependencies {
     compile 'org.jsoup:jsoup:1.13.1'
     compile 'org.mybatis:mybatis:3.4.6'
     compile 'org.mybatis:mybatis-cdi:1.0.2'
+    implementation 'com.google.code.gson:gson:2.8.6'
     compile group: 'org.jasig.cas.client', name: 'cas-client-core', version: '3.5.0'
     compile group: 'org.postgresql', name: 'postgresql', version: '42.2.5'
     compile group: 'javax.ws.rs', name: 'javax.ws.rs-api', version: '2.1.1'
