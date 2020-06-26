@@ -16,8 +16,10 @@ import java.util.List;
 public interface UtilisateurMapper {
 
     List<Utilisateur> select(@Param("cip") String cip);
+
     void insertUtilisateur(@Param("cip") String cip, @Param("nom") String nom,
                            @Param("prenom") String prenom, @Param("email") String email);
+
     void insertCours(@Param("cours_idAAjouter") String cours_idAAjouter,@Param("departement_idAAjouter") String departement_idAAjouter,
                      @Param("descriptionAAjouter") String descriptionAAjouter, @Param("session_idAAjouter")String session_idAAjouter);
 
