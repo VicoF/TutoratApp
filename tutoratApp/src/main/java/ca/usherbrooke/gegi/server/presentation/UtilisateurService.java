@@ -67,6 +67,13 @@ public class UtilisateurService {
     }
 
     @GET
+    @Produces("application/json")
+    public String getUtilisateur(@QueryParam("cip") String cip){
+        Gson gson = new Gson();
+        return gson.toJson(utilisateurMapper.select(cip));
+    }
+
+    /*@GET
     @Path("album")
     @Produces("application/json")
     public String getAlbum() throws IOException, InterruptedException {
@@ -79,9 +86,9 @@ public class UtilisateurService {
         //Pour inserer les cours dans la base de donnee
         //insertCours(cours);
         return "Done! veuillez voir la console :)";
-    }
+    }*/
 
-    @GET
+   /* @GET
     @Path("inscriptionMentor")
     @Produces("text/html")
     public String inscriptionMentor(){
@@ -110,9 +117,9 @@ public class UtilisateurService {
         email.attr("value", (String) attributes.get("courriel"));
 
         return doc.outerHtml();
-    }
+    }*/
 
-    @GET
+   /* @GET
     @Path("inscriptionMentore")
     @Produces("text/html")
     public String inscriptionMentore(){
@@ -141,9 +148,9 @@ public class UtilisateurService {
         email.attr("value", (String) attributes.get("courriel"));
 
         return doc.outerHtml();
-    }
+    }*/
 
-    @GET
+    /*@GET
     @Path("Test")
     @Produces("text/html")
     public String test(){
@@ -171,7 +178,7 @@ public class UtilisateurService {
         email.attr("value", (String) attributes.get("courriel"));
 
         return doc.outerHtml();
-    }
+    }*/
 
     @POST
     @Path("InsertUtilisateur")
@@ -183,16 +190,8 @@ public class UtilisateurService {
         return "Done :) Passez une merveilleuse journee";
     }
 
-    @GET
-    @Path("Utilisateur")
-    @Produces("application/json")
-    public List<Utilisateur> getUtilisateur(@QueryParam("cip") String cip) {
-        //  System.out.println(httpServletRequest.getUserPrincipal().getName());
-        List<Utilisateur> utilisateurs = utilisateurMapper.select(cip);
-        return utilisateurs;
-    }
 
-    @POST
+   /* @POST
     @Path("InsertUtilisateur")
     @Produces("text/plain")
     //Fonction qui insere des cours dans notre base de donnee LB
@@ -201,7 +200,7 @@ public class UtilisateurService {
             utilisateurMapper.insertCours(cours.getAp_id(), cours.getDepartement_id(), cours.getDescription(), cours.getTrimestre_id());
         }
         return "Le tout est insere dans la base de donnee";
-    }
+    }*/
 
     @GET
     @Path("Trimestre")
