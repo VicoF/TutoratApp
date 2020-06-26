@@ -18,7 +18,7 @@
     </filter>
     <filter-mapping>
         <filter-name>CAS Authentication Filter</filter-name>
-        <url-pattern>/alloooo</url-pattern>
+        <url-pattern>/nocas</url-pattern>
     </filter-mapping>
 
     <!-- Filtre pour valider le ticket reçu par CAS -->
@@ -48,4 +48,6 @@
         <filter-name>CAS HttpServletRequest Wrapper Filter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
+
+
 </web-app>
