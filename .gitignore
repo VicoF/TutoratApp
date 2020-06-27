@@ -354,3 +354,5 @@ tutoratApp/.idea/
 tutoratApp/build/
 
 tutoratApp/.gradle/
+
+.idea/

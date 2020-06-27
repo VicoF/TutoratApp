@@ -3,12 +3,14 @@ package ca.usherbrooke.gegi.server.presentation;
 
 
 import ca.usherbrooke.gegi.server.business.CoursDep;
+import ca.usherbrooke.gegi.server.business.Inscription;
 import ca.usherbrooke.gegi.server.business.JsonToObject;
 import ca.usherbrooke.gegi.server.business.Utilisateur;
 import ca.usherbrooke.gegi.server.persistence.UtilisateurMapper;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
+import com.google.gson.reflect.TypeToken;
 import org.jasig.cas.client.authentication.AttributePrincipal;
 
 
@@ -26,6 +28,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import java.io.*;
+import java.lang.reflect.Type;
 import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -72,6 +75,44 @@ public class UtilisateurService {
         Gson gson = new Gson();
         return gson.toJson(utilisateurMapper.select(cip));
     }
+
+    @Path("inscription")
+    @GET
+    @Produces("application/json")
+    public String getInscriptions(@QueryParam("cip") String cip){
+        Gson gson = new Gson();
+        return gson.toJson(utilisateurMapper.getInscriptions(cip));
+    }
+
+    @Path("inscription")
+    @POST
+    @Consumes("application/json")
+    public Response ajouterInscriptions(String json){
+        Gson gson = new Gson();
+        Type type = new TypeToken<ArrayList<Inscription>>(){}.getType();
+        ArrayList<Inscription> inscriptions;
+        try {
+            inscriptions = gson.fromJson(json, type);
+        } catch (JsonSyntaxException e){
+            return Response.serverError().entity("Format du JSON invalide" + e.getLocalizedMessage()).build();
+        }
+        if (inscriptions!=null) {
+            for(Inscription insciption : inscriptions){
+                if(insciption!=null) {
+                    utilisateurMapper.insertInscription(insciption.getStatud_id(), insciption.getSession_id(),
+                            insciption.getCip(), insciption.getCours_id());
+                }else{
+                    return Response.serverError().entity("Une des inscription est vide").build();
+                }
+            }
+        }else{
+            return Response.serverError().entity("Fichier JSON est vide").build();
+        }
+
+        return Response.ok().build();
+    }
+
+
 
     /*@GET
     @Path("album")

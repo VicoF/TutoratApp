@@ -14,6 +14,17 @@
         VALUES(#{cip}, #{nom}, #{prenom}, #{email});
     </insert>
 
+    <select id="getInscriptions" resultType="Inscription">
+        SELECT *
+        FROM inscription
+        WHERE inscription.cip = #{cip};
+    </select>
+
+    <insert id="insertInscription">
+        INSERT INTO inscription(statut_id, session_id, cip, cours_id)
+        VALUES (#{statut_id},#{session_id},#{cip},#{cours_id});
+    </insert>
+
     <insert id="insertCours">
         INSERT INTO coursdep(cours_id, departement_id, description, session_id)
         VALUES(#{cours_idAAjouter}, #{departement_idAAjouter}, #{descriptionAAjouter}, #{session_idAAjouter});
