@@ -23,6 +23,9 @@ import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
 import javax.json.stream.JsonParser;
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
@@ -79,9 +82,12 @@ public class UtilisateurService {
     @Path("inscription")
     @GET
     @Produces("application/json")
-    public String getInscriptions(@QueryParam("cip") String cip){
+    public String getInscriptions(@QueryParam("cip") String cip,
+                                  @QueryParam("session_id") String sessionId,
+                                  @QueryParam("statut_id") String statutId,
+                                  @QueryParam("cours_id") String coursId){
         Gson gson = new Gson();
-        return gson.toJson(utilisateurMapper.getInscriptions(cip));
+        return gson.toJson(utilisateurMapper.getInscriptions(statutId, sessionId, cip, coursId));
     }
 
     @Path("inscription")
@@ -112,7 +118,11 @@ public class UtilisateurService {
         return Response.ok().build();
     }
 
-
+    @Path("subscribed")
+    @GET
+    public String getSubscribed(@QueryParam("session_id") String sessionId){
+        return utilisateurMapper.getCoursIDWithSubscribedMentore(sessionId).toString();
+    }
 
     /*@GET
     @Path("album")

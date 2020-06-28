@@ -17,7 +17,25 @@
     <select id="getInscriptions" resultType="Inscription">
         SELECT *
         FROM inscription
-        WHERE inscription.cip = #{cip};
+        WHERE TRUE =TRUE
+        <if test="cip != null">
+            AND inscription.cip = #{cip}
+        </if>
+        <if test="session_id != null">
+            AND inscription.session_id = #{session_id}
+        </if>
+        <if test="statut_id != null">
+            AND inscription.statut_id = #{statut_id}
+        </if>
+        <if test="cours_id != null">
+            AND inscription.cours_id = #{cours_id}
+        </if>
+    </select>
+
+    <select id="getCoursIDWithSubscribedMentore" resultType="String">
+        SELECT cours_id
+        FROM inscription
+        WHERE inscription.session_id = #{session_id};
     </select>
 
     <insert id="insertInscription">
