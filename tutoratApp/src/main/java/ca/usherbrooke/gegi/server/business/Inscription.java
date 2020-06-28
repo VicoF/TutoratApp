@@ -1,18 +1,18 @@
 package ca.usherbrooke.gegi.server.business;
 
 public class Inscription {
-    private int statud_id;
+    private int statut_id;
     private String session_id;
     private String cip;
     private String cours_id;
     private int note;
 
-    public int getStatud_id() {
-        return statud_id;
+    public int getStatut_id() {
+        return statut_id;
     }
 
-    public void setStatud_id(int statud_id) {
-        this.statud_id = statud_id;
+    public void setStatut_id(int statut_id) {
+        this.statut_id = statut_id;
     }
 
     public String getSession_id() {
@@ -50,7 +50,7 @@ public class Inscription {
     @Override
     public String toString() {
         return "Inscription{" +
-                "statud_id=" + statud_id +
+                "statud_id=" + statut_id +
                 ", session_id='" + session_id + '\'' +
                 ", cip='" + cip + '\'' +
                 ", cours_id='" + cours_id + '\'' +

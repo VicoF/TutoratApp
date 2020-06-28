@@ -2,47 +2,34 @@ package ca.usherbrooke.gegi.server.presentation;
 
 
 
-import ca.usherbrooke.gegi.server.business.CoursDep;
 import ca.usherbrooke.gegi.server.business.Inscription;
-import ca.usherbrooke.gegi.server.business.JsonToObject;
 import ca.usherbrooke.gegi.server.business.Utilisateur;
 import ca.usherbrooke.gegi.server.persistence.UtilisateurMapper;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
-import org.jasig.cas.client.authentication.AttributePrincipal;
 
-
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 
 import javax.inject.Inject;
 import javax.json.Json;
 import javax.json.JsonArray;
 import javax.json.JsonObject;
 import javax.json.stream.JsonParser;
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import java.io.*;
 import java.lang.reflect.Type;
-import java.net.MalformedURLException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Map;
 
 @Path("users")
 public class UtilisateurService {
@@ -52,6 +39,9 @@ public class UtilisateurService {
 
     @Inject
     UtilisateurMapper utilisateurMapper;
+
+    static final int MENTOR = 1;
+    static final int ETUDIANT = 0;
 
     @POST
     @Consumes("application/json")
@@ -84,7 +74,7 @@ public class UtilisateurService {
     @Produces("application/json")
     public String getInscriptions(@QueryParam("cip") String cip,
                                   @QueryParam("session_id") String sessionId,
-                                  @QueryParam("statut_id") String statutId,
+                                  @QueryParam("statut_id") int statutId,
                                   @QueryParam("cours_id") String coursId){
         Gson gson = new Gson();
         return gson.toJson(utilisateurMapper.getInscriptions(statutId, sessionId, cip, coursId));
@@ -105,7 +95,7 @@ public class UtilisateurService {
         if (inscriptions!=null) {
             for(Inscription insciption : inscriptions){
                 if(insciption!=null) {
-                    utilisateurMapper.insertInscription(insciption.getStatud_id(), insciption.getSession_id(),
+                    utilisateurMapper.insertInscription(insciption.getStatut_id(), insciption.getSession_id(),
                             insciption.getCip(), insciption.getCours_id());
                 }else{
                     return Response.serverError().entity("Une des inscription est vide").build();
@@ -118,11 +108,6 @@ public class UtilisateurService {
         return Response.ok().build();
     }
 
-    @Path("subscribed")
-    @GET
-    public String getSubscribed(@QueryParam("session_id") String sessionId){
-        return utilisateurMapper.getCoursIDWithSubscribedMentore(sessionId).toString();
-    }
 
     /*@GET
     @Path("album")

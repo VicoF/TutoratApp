@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ca.usherbrooke.gegi.server.persistence.JumelageMapper">
+
+    <insert id="insertJumelage" >
+        INSERT INTO jumelage(cours_id,session_id,etudiant,mentore_par)
+        VALUES(#{cours_id}, #{session_id}, #{etudiant}, #{mentore_par});
+    </insert>
+
+    <select id="getJumelages" resultType="Jumelage">
+        SELECT *
+        FROM jumelage
+        WHERE TRUE =TRUE
+        <if test="etudiant != null">
+            AND jumelage.etudiant = #{etudiant}
+        </if>
+        <if test="session_id != null">
+            AND jumelage.session_id = #{session_id}
+        </if>
+        <if test="mentore_par != null">
+            AND jumelage.mentore_par = #{mentore_par}
+        </if>
+        <if test="cours_id != null">
+            AND jumelage.cours_id = #{cours_id}
+        </if>
+    </select>
+
+    <delete id="deleteJumelages">
+        DELETE
+        FROM jumelage
+        WHERE TRUE = TRUE
+        <if test="etudiant != null">
+            AND jumelage.etudiant = #{etudiant}
+        </if>
+        <if test="session_id != null">
+            AND jumelage.session_id = #{session_id}
+        </if>
+        <if test="mentore_par != null">
+            AND jumelage.mentore_par = #{mentore_par}
+        </if>
+        <if test="cours_id != null">
+            AND jumelage.cours_id = #{cours_id}
+        </if>
+    </delete>
+
+</mapper>
