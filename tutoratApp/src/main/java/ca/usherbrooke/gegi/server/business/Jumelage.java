@@ -3,7 +3,7 @@ package ca.usherbrooke.gegi.server.business;
 public class Jumelage {
 
     private String cours_id;
-    private String mentor;
+    private String etudiant;
     private String mentore_par;
     private String session_id;
 
@@ -15,12 +15,12 @@ public class Jumelage {
         this.cours_id = cours_id;
     }
 
-    public String getMentor() {
-        return mentor;
+    public String getEtudiant() {
+        return etudiant;
     }
 
-    public void setMentor(String mentor) {
-        this.mentor = mentor;
+    public void setEtudiant(String mentor) {
+        this.etudiant = mentor;
     }
 
     public String getMentore_par() {
@@ -43,7 +43,7 @@ public class Jumelage {
     public String toString() {
         return "Jumelage{" +
                 "cours_id='" + cours_id + '\'' +
-                ", mentor='" + mentor + '\'' +
+                ", mentor='" + etudiant + '\'' +
                 ", mentore_par='" + mentore_par + '\'' +
                 ", session_id='" + session_id + '\'' +
                 '}';

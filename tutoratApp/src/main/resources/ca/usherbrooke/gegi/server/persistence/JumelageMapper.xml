@@ -9,7 +9,7 @@
         VALUES(#{cours_id}, #{session_id}, #{etudiant}, #{mentore_par});
     </insert>
 
-    <select id="getJumelages" resultType="Jumelage">
+    <select id="select" resultType="Jumelage">
         SELECT *
         FROM jumelage
         WHERE TRUE =TRUE

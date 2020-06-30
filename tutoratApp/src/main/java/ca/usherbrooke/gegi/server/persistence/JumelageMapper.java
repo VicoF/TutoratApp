@@ -13,7 +13,7 @@ public interface JumelageMapper {
     void insertJumelage(@Param("cours_id") String coursId, @Param("session_id") String sessionId,
                            @Param("etudiant") String etudiantCip, @Param("mentore_par") String mentorCip);
 
-    List<Jumelage> getJumelages(@Param("cours_id") String coursId, @Param("session_id") String sessionId,
+    List<Jumelage> select(@Param("cours_id") String coursId, @Param("session_id") String sessionId,
                                 @Param("etudiant") String etudiantCip, @Param("mentore_par") String mentorCip);
 
     void deleteJumelages(@Param("cours_id") String coursId, @Param("session_id") String sessionId,

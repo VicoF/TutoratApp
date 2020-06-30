@@ -1,13 +1,16 @@
 package ca.usherbrooke.gegi.server.presentation;
 
 import ca.usherbrooke.gegi.server.business.Inscription;
+import ca.usherbrooke.gegi.server.business.Jumelage;
+import ca.usherbrooke.gegi.server.business.Utilisateur;
 import ca.usherbrooke.gegi.server.persistence.JumelageMapper;
 import ca.usherbrooke.gegi.server.persistence.UtilisateurMapper;
+import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
+import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import java.util.*;
@@ -23,31 +26,92 @@ public class JumelageService {
     @Inject
     JumelageMapper jumelageMapper;
 
+    /**
+     * Requête permettant d'obtenir les jumelages correspondant aux paramètres
+     * @param coursId
+     * @param sessionId
+     * @param etudiantCIP
+     * @param mentorCIP
+     * @return Un ArrayJson  contenant tous les jumelages correspondant dans le format:
+     *[
+     *  {
+     *      "cours_id": "GEN101",
+     *      "session_id": "E20",
+     *      "etudiant": "frev2701",
+     *      "mentore_par": "graw3301"
+     *  },
+     *  {
+     *      "cours_id": "GEN400",
+     *      "session_id": "E20",
+     *      "etudiant": "frev2701",
+     *      "mentore_par": "boul0902"
+     *  }
+     *]
+     */
+    @GET
+    @Produces("application/json")
+    public String getJumelages(@QueryParam("cours_id") String coursId, @QueryParam("session_id") String sessionId, @QueryParam("etudiant") String etudiantCIP, @QueryParam("mentore_par") String mentorCIP) {
+        Gson gson = new Gson();
+        return gson.toJson(jumelageMapper.select(coursId, sessionId, etudiantCIP, mentorCIP));
+    }
+
+    /**
+     * Requête permettant d'ajouter un jumelage à la base de donnée
+     * @param json Un json représentant un jumelage sous le format suivant:
+     * {
+     *      "cours_id": "GEN101",
+     *      "session_id": "E20",
+     *      "etudiant": "frev2701",
+     *      "mentore_par": "graw3301"
+     *  }
+     * @return BAD_REQUEST(400) si le JSON est invalide, OK sinon
+     */
+    @POST
+    @Consumes("application/json")
+    public Response ajouterJumelage(String json) {
+        Gson gson = new Gson();
+        Jumelage jumelage;
+        try {
+            jumelage = gson.fromJson(json, Jumelage.class);
+        } catch (JsonSyntaxException e) {
+            return Response.status(Response.Status.BAD_REQUEST).entity("Format du JSON invalide" + e.getLocalizedMessage()).build();
+        }
+        if (jumelage != null && jumelage.getCours_id() != null && jumelage.getSession_id() != null &&
+                jumelage.getEtudiant() != null && jumelage.getMentore_par() != null) {
+            jumelageMapper.insertJumelage(jumelage.getCours_id(), jumelage.getSession_id(),
+                    jumelage.getEtudiant(), jumelage.getMentore_par());
+        } else {
+            return Response.status(Response.Status.BAD_REQUEST).entity("Fichier JSON est vide ou son contenu est incomplet").build();
+        }
+
+        return Response.ok().build();
+    }
+
     @Path("makeJumelages")
     @GET
-    public Response makeJumelages(){
+    public Response makeJumelages() {
         UtilisateurService us = new UtilisateurService();
         String sessionCourante = us.getTrimestreCourant();
 
-        List<Inscription> etudiants = utilisateurMapper.getInscriptions(UtilisateurService.ETUDIANT,sessionCourante,null,null);
-        List<Inscription> mentors = utilisateurMapper.getInscriptions(UtilisateurService.MENTOR,sessionCourante,null,null);
+        List<Inscription> etudiants = utilisateurMapper.getInscriptions(UtilisateurService.ETUDIANT, sessionCourante, null, null);
+        List<Inscription> mentors = utilisateurMapper.getInscriptions(UtilisateurService.MENTOR, sessionCourante, null, null);
 
-       Map<String, Integer> coursEnDemande = new HashMap<>();
+        Map<String, Integer> coursEnDemande = new HashMap<>();
 
-       //Initier les clés avec les cours qui son demandé par les étudiants
-       for(Inscription etudiant : etudiants){
-           coursEnDemande.put(etudiant.getCours_id(),0);
-       }
+        //Initier les clés avec les cours qui son demandé par les étudiants
+        for (Inscription etudiant : etudiants) {
+            coursEnDemande.put(etudiant.getCours_id(), 0);
+        }
 
-       //Compte le nombre de mentor disponible pour chaque cours
-       for (Inscription mentor : mentors){
-           String cours = mentor.getCours_id();
-           if (coursEnDemande.containsKey(cours)){
-               coursEnDemande.put(cours,coursEnDemande.get(cours)+1);
-           }
-       }
+        //Compte le nombre de mentor disponible pour chaque cours
+        for (Inscription mentor : mentors) {
+            String cours = mentor.getCours_id();
+            if (coursEnDemande.containsKey(cours)) {
+                coursEnDemande.put(cours, coursEnDemande.get(cours) + 1);
+            }
+        }
 
-       //On trie les cours selon le nombre de mentor dispo, pour passer en priorité les cours avec moins de mentor
+        //On trie les cours selon le nombre de mentor dispo, pour passer en priorité les cours avec moins de mentor
         List<Map.Entry<String, Integer>> sortedCoursEnDemande = new ArrayList<>(coursEnDemande.entrySet());
         sortedCoursEnDemande.sort(Map.Entry.comparingByValue());
 
@@ -55,13 +119,13 @@ public class JumelageService {
         Set<Inscription> jumeledEtudiant = new HashSet<>();
 
         //Fait les jumelages
-        for (Map.Entry cours : sortedCoursEnDemande){
+        for (Map.Entry cours : sortedCoursEnDemande) {
             String cours_id = (String) cours.getKey();
-            for (Inscription mentor : mentors){
-                if(cours_id.equals(mentor.getCours_id()) && !jumeledMentor.contains(mentor.getCip())){
-                    for(Inscription etudiant :etudiants){
-                        if (cours_id.equals(etudiant.getCours_id()) && !jumeledEtudiant.contains(etudiant)){
-                            jumelageMapper.insertJumelage(cours_id,sessionCourante,etudiant.getCip(),mentor.getCip());
+            for (Inscription mentor : mentors) {
+                if (cours_id.equals(mentor.getCours_id()) && !jumeledMentor.contains(mentor.getCip())) {
+                    for (Inscription etudiant : etudiants) {
+                        if (cours_id.equals(etudiant.getCours_id()) && !jumeledEtudiant.contains(etudiant)) {
+                            jumelageMapper.insertJumelage(cours_id, sessionCourante, etudiant.getCip(), mentor.getCip());
                             jumeledMentor.add(mentor.getCip());
                             jumeledEtudiant.add(etudiant);
                             break;
@@ -77,14 +141,13 @@ public class JumelageService {
 
     @Path("resetJumelages")
     @GET
-    public Response resetJumelages(){
+    public Response resetJumelages() {
         UtilisateurService us = new UtilisateurService();
         String sessionCourante = us.getTrimestreCourant();
-        jumelageMapper.deleteJumelages(null, sessionCourante,null,null);
+        jumelageMapper.deleteJumelages(null, sessionCourante, null, null);
 
         return Response.ok("Jumelages supprimée").build();
     }
-
 
 
 }

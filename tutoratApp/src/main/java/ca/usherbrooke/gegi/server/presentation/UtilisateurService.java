@@ -122,6 +122,14 @@ public class UtilisateurService {
         return gson.toJson(utilisateurMapper.select(cip));
     }
 
+    /**
+     * Permet d'obtenir les inscriptions selon certain paramètres
+     * @param cip
+     * @param sessionId
+     * @param statutId
+     * @param coursId
+     * @return un ArrayJson contenant les inscriptions correspondant aux contraintes passées en paramètre
+     */
     @Path("inscription")
     @GET
     @Produces("application/json")
@@ -133,6 +141,25 @@ public class UtilisateurService {
         return gson.toJson(utilisateurMapper.getInscriptions(statutId, sessionId, cip, coursId));
     }
 
+    /**
+     * Requête pour ajouter des inscriptions à la base de donnée
+     * @param json ArrayJson contenant des inscriptions sous ce format:
+     *             [
+     *   {
+     *     "cip": "graw3301",
+     *     "session_id": "E20",
+     *     "statut_id": 1,
+     *     "cours_id": "GEN101"
+     *   },
+     *   {
+     *     "cip": "boul0902",
+     *     "session_id": "E20",
+     *     "statut_id": 1,
+     *     "cours_id": "GEN135"
+     *   }
+     *             ]
+     * @return BAD_REQUEST si le JSON est invalide, OK sinon
+     */
     @Path("inscription")
     @POST
     @Consumes("application/json")
@@ -268,7 +295,7 @@ public class UtilisateurService {
 
         return doc.outerHtml();
     }*/
-
+/*
     @POST
     @Path("InsertUtilisateur")
     @Consumes("application/x-www-form-urlencoded")
@@ -277,7 +304,7 @@ public class UtilisateurService {
     {
         utilisateurMapper.insertUtilisateur(cip,nom,prenom,email);
         return "Done :) Passez une merveilleuse journee";
-    }
+    }*/
 
 
    /* @POST
@@ -291,6 +318,10 @@ public class UtilisateurService {
         return "Le tout est insere dans la base de donnee";
     }*/
 
+    /**
+     * Perment d'obtenir le trimestre_id de la session courante
+     * @return le trimestre_id de la session courante ex:"E20"
+     */
     @GET
     @Path("Trimestre")
     @Produces("text/plain")
