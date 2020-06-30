@@ -87,6 +87,12 @@ public class JumelageService {
         return Response.ok().build();
     }
 
+    /**
+     * Génère les jumelages à partir de toutes les inscriptions du trimestre
+     * Important de reset les jumelages avant pour éviter des erreurs de duplicat dans la db
+     * @TODO vérifier les jumelages qui existe déjà afin de ne pas avoir à reset
+     * @return Une réponse ok, avec le nombre de jumelage effectués
+     */
     @Path("makeJumelages")
     @GET
     public Response makeJumelages() {
@@ -139,6 +145,10 @@ public class JumelageService {
         return Response.ok(jumeledEtudiant.size() + " jumelages ont ete fait. Voir la base de donnee").build();
     }
 
+    /**
+     * Un acces à cette page et tout les jumelages de la session en cours disparaitront par magie *pouf*
+     * @return Un message OK
+     */
     @Path("resetJumelages")
     @GET
     public Response resetJumelages() {
