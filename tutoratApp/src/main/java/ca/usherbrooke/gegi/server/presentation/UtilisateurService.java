@@ -43,6 +43,15 @@ public class UtilisateurService {
     static final int MENTOR = 1;
     static final int ETUDIANT = 0;
 
+    /**
+     * Requête permettant l'inscription d'un utilisateur dans la base de donnée
+     * @param json Une représentation en json d'un objet Utilisateur:
+     *{
+     *     cip: "exem1234",
+     *     email: "exemple@usherbrooke.ca"
+     * }
+     * @return Retourne code d'erreur de serveur si le JSON est invalide, ok sinon
+     */
     @POST
     @Consumes("application/json")
     public Response ajouterUtilisateur(String json){
@@ -51,17 +60,61 @@ public class UtilisateurService {
         try {
              user = gson.fromJson(json, Utilisateur.class);
         } catch (JsonSyntaxException e){
-            return Response.serverError().entity("Format du JSON invalide" + e.getLocalizedMessage()).build();
+            return Response.status(Response.Status.BAD_REQUEST).entity("Format du JSON invalide" + e.getLocalizedMessage()).build();
         }
-        if (user!=null) {
-            utilisateurMapper.insertUtilisateur(user.getCip(),user.getNom(),user.getPrenom(),user.getEmail());
+        if (user!=null && user.getCip()!= null) {
+            if(ajouterNomPrenom(user,user.getCip())){
+                utilisateurMapper.insertUtilisateur(user.getCip(), user.getNom(), user.getPrenom(), user.getEmail());
+            }else{
+                return Response.status(Response.Status.BAD_REQUEST).entity("CIP de l'utilisateur invalide").build();
+            }
         }else{
-            return Response.serverError().entity("Fichier JSON est vide").build();
+            return Response.status(Response.Status.BAD_REQUEST).entity("Fichier JSON est vide").build();
         }
 
         return Response.ok().build();
     }
 
+    /**
+     * Ajoute le nom et le prenom à l'utilisateur selon son cip
+     * @param user l'utilisateur auquel on ajoutera les info
+     * @param cip le cip de l'utilisateur
+     * @return true si réussite, false si le cip est invalide
+     */
+    private boolean ajouterNomPrenom(Utilisateur user, String cip){
+        String json = makeGetRequest("http://zeus.gel.usherbrooke.ca:8080/ms/rest/etudiant_groupe?inscription=2017-01-01&cip_etudiant="+cip);
+        JsonParser parser = Json.createParser(new StringReader(json));
+        while(parser.hasNext()){
+            JsonParser.Event event = parser.next();
+            if (event.equals(JsonParser.Event.START_ARRAY)){
+                break;
+            }
+        }
+        JsonArray users = parser.getArray();
+
+        if(!users.isEmpty()){
+            JsonObject obj = users.getJsonObject(0);
+            user.setNom(obj.getString("nom"));
+            user.setPrenom(obj.getString("prenom"));
+            user.setCip(cip);
+        }else{
+            //Le cip est invalide
+            return false;
+        }
+        return true;
+    }
+
+    /**
+     * Requête permettant d'obtenir les informations concernant un certain utilisateur
+     * @param cip le cip de l'utilisateur, passé en paramètre de la requête
+     * @return Une représentation en json d'un objet Utilisateur:
+     *      *{
+     *      *     cip: "exem1234",
+     *      *     email: "exemple@usherbrooke.ca",
+     *      *     prenom : "exemple",
+     *      *     nom : "exemple"
+     *      * }
+     */
     @GET
     @Produces("application/json")
     public String getUtilisateur(@QueryParam("cip") String cip){
