@@ -16,7 +16,7 @@ import javax.ws.rs.core.Response;
 import java.util.*;
 
 @Path("Note")
-public class JumelageService {
+public class NoteService {
     @Context
     HttpServletRequest httpServletRequest;
 
@@ -77,7 +77,7 @@ public class JumelageService {
         Gson gson = new Gson();
         Note note;
         try {
-            jumelage = gson.fromJson(json, Jumelage.class);
+            note = gson.fromJson(json, Jumelage.class);
         } catch (JsonSyntaxException e) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Format du JSON invalide" + e.getLocalizedMessage()).build();
         }
