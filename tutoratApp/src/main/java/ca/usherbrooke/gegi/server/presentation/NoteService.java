@@ -2,8 +2,10 @@ package ca.usherbrooke.gegi.server.presentation;
 
 import ca.usherbrooke.gegi.server.business.Inscription;
 import ca.usherbrooke.gegi.server.business.Jumelage;
+import ca.usherbrooke.gegi.server.business.Note;
 import ca.usherbrooke.gegi.server.business.Utilisateur;
 import ca.usherbrooke.gegi.server.persistence.JumelageMapper;
+import ca.usherbrooke.gegi.server.persistence.NoteMapper;
 import ca.usherbrooke.gegi.server.persistence.UtilisateurMapper;
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
@@ -53,11 +55,11 @@ public class NoteService {
      */
     @GET
     @Produces("application/json")
-    public String getNote(@QueryParam("cip") String cip, @QueryParam("statut_id") String statutId,
+    public String getNote(@QueryParam("cip") String cip, @QueryParam("statut_id") int statutId,
                             @QueryParam("cours_id") String coursId, @QueryParam("donnee_par") String donneurCip,
                                 @QueryParam("note") int note, @QueryParam("commentaire") String commentaire) {
         Gson gson = new Gson();
-        return gson.toJson(jumelageMapper.select(cip, statutId, coursId, donneurCip, note, commentaire));
+        return gson.toJson(noteMapper.select(cip, statutId, coursId, donneurCip, note, commentaire));
     }
 
     /**
@@ -77,14 +79,14 @@ public class NoteService {
         Gson gson = new Gson();
         Note note;
         try {
-            note = gson.fromJson(json, Jumelage.class);
+            note = gson.fromJson(json, Note.class);
         } catch (JsonSyntaxException e) {
             return Response.status(Response.Status.BAD_REQUEST).entity("Format du JSON invalide" + e.getLocalizedMessage()).build();
         }
-        if (note != null && note.getCip() != null && note.getStatut_id() != null &&
-                note.getCours_id() != null && note.getDonnee_par() != null && note.getNote() != null && note.getCommentaire) {
+        if (note != null && note.getCip() != null  &&
+                note.getCours_id() != null && note.getDonnee_par() != null && note.getCommentaire()!=null) {
             noteMapper.insertNote(note.getCip(), note.getStatut_id(),
-                    note.getCours_id(), note.getDonnee_par(), note.getNote(), note.getCommentaire);
+                    note.getCours_id(), note.getDonnee_par(), note.getNote(), note.getCommentaire());
         } else {
             return Response.status(Response.Status.BAD_REQUEST).entity("Fichier JSON est vide ou son contenu est incomplet").build();
         }
@@ -100,8 +102,8 @@ public class NoteService {
     @GET
     public Response resetNote() {
         UtilisateurService us = new UtilisateurService();
-        String utilisateur = us.getUtilisateur();
-        NoteMapper.deleteNote(null, null, null, utilisateur, null, null);
+        //String utilisateur = us.getUtilisateur();
+        //noteMapper.deleteNote(null, null, null, utilisateur, null, null);
 
         return Response.ok("Notes supprimée").build();
     }
