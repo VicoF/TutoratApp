@@ -6,6 +6,7 @@ import ca.usherbrooke.gegi.server.business.Utilisateur;
 import ca.usherbrooke.gegi.server.persistence.JumelageMapper;
 import ca.usherbrooke.gegi.server.persistence.UtilisateurMapper;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.google.gson.JsonSyntaxException;
 
 import javax.inject.Inject;
@@ -13,6 +14,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
+import java.io.IOException;
+import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.util.*;
 
 @Path("jumelages")
@@ -96,6 +102,7 @@ public class JumelageService {
     @Path("makeJumelages")
     @GET
     public Response makeJumelages() {
+        resetJumelages();
         UtilisateurService us = new UtilisateurService();
         String sessionCourante = us.getTrimestreCourant();
 
@@ -134,15 +141,34 @@ public class JumelageService {
                             jumelageMapper.insertJumelage(cours_id, sessionCourante, etudiant.getCip(), mentor.getCip());
                             jumeledMentor.add(mentor.getCip());
                             jumeledEtudiant.add(etudiant);
+                            sendNotification(etudiant.getCip());
+                            sendNotification(mentor.getCip());
                             break;
                         }
                     }
                 }
             }
         }
-
-
         return Response.ok(jumeledEtudiant.size() + " jumelages ont ete fait. Voir la base de donnee").build();
+    }
+
+    private void sendNotification(String cip){
+        String url = "http://notifius.jplemay.com/users/"+cip+"/notifications";
+        String body="{ \n" +
+                "\"title\": \"Nouveau Jumelage - Mentorat\",\n" +
+                "\"content\": \"Vous avez été jumelé avec un autre étudiant pour un mentorat auquel vous vous êtes inscrit. " +
+                "Veuillez consulter la page de TutorAPP pour plus de détails.\",\n" +
+                "\"service\": \"MENTORING\"\n" +
+                "}";
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+                .POST(HttpRequest.BodyPublishers.ofString(body))
+                .uri(URI.create(url))
+                .header("Content-type","application/json; charset=utf-8")
+                .build();
+      //envoie asynchrone car on ne vérifie pas la réponse
+        client.sendAsync(request, HttpResponse.BodyHandlers.ofString());
+
     }
 
     /**
