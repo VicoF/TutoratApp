@@ -152,6 +152,10 @@ public class JumelageService {
         return Response.ok(jumeledEtudiant.size() + " jumelages ont ete fait. Voir la base de donnee").build();
     }
 
+    /**
+     * Méthode qui permet d'envoyer une notification de création de jumelage à un certain étudiant
+     * @param cip : cip de l'étudiant à qui on souhaite faire parvenir la notification
+     */
     private void sendNotification(String cip){
         String url = "http://notifius.jplemay.com/users/"+cip+"/notifications";
         String body="{ \n" +
